@@ -33,11 +33,12 @@ public class LSystem : MonoBehaviour
         randomRotations = new float[1000];
         for (int i = 0; i < randomRotations.Length; i++)
         {
-            randomRotations[i] = Random.Range(-1f, 1f);
+            randomRotations[i] = Random.Range(-1.0f, 1.0f);
         }
 
         rules.Add('X', "[-FX][+FX][FX]");
         rules.Add('F', "FF");
+        transform.position = tree.GetComponent<LineRenderer>().GetPosition(1);
 
         Generate();
     }
@@ -49,13 +50,15 @@ public class LSystem : MonoBehaviour
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < iterations; i++)
         {
-            foreach (char ch in currentPath.ToCharArray())
+            var currentPathChars = currentPath.ToCharArray();
+            for (int j = 0; j < currentPathChars.Length; j++)
             {
-                sb.Append(rules.ContainsKey(ch)
-                    ? rules[ch] : ch.ToString());
+                sb.Append(rules.ContainsKey(currentPath[j])
+                    ? rules[currentPathChars[j]]
+                    : currentPathChars[j].ToString());
             }
             currentPath = sb.ToString();
-            sb.Clear();
+            sb = new StringBuilder();
         }
 
         for (int i = 0; i < currentPath.Length; i++)
@@ -77,6 +80,9 @@ public class LSystem : MonoBehaviour
                     else
                     {
                         currentElement = Instantiate(branch, transform.position, transform.rotation);
+                        Debug.Log("branch start width: " + currentElement.GetComponent<LineRenderer>().startWidth);
+                        Debug.Log("branch end width: " + currentElement.GetComponent<LineRenderer>().endWidth);
+
                     }
 
                     currentElement.transform.SetParent(tree.transform);
@@ -93,26 +99,33 @@ public class LSystem : MonoBehaviour
                         length = UnityEngine.Random.Range(minBranchLength, maxBranchLength);
                         transform.Translate(Vector3.up * length);
                     }
-
+                    Debug.Log("length: " + length);
+                    currentTreeElement.lineRenderer.SetPosition(1, new Vector3(0, length, 0));
                     currentTreeElement.lineRenderer.startWidth = currentTreeElement.lineRenderer.startWidth * width;
                     currentTreeElement.lineRenderer.endWidth = currentTreeElement.lineRenderer.endWidth * width;
                     currentTreeElement.lineRenderer.sharedMaterial = currentTreeElement.material;
-                    currentTreeElement.lineRenderer.SetPosition(1, new Vector3(0, length, 0));
+
                     break;
                 case 'X':
                     break;
-                case'+':
+                case '+':
                     transform.Rotate(Vector3.forward * angle * (1f + variance / 100f * randomRotations[i % randomRotations.Length]));
                     break;
-                case'-':
+
+                case '-':
                     transform.Rotate(Vector3.back * angle * (1f + variance / 100f * randomRotations[i % randomRotations.Length]));
+
                     break;
-                case'*':
+
+                case '*':
                     transform.Rotate(Vector3.up * 120f * (1f + variance / 100f * randomRotations[i % randomRotations.Length]));
                     break;
-                case'/':
+
+                case '/':
                     transform.Rotate(Vector3.down * 120f * (1f + variance / 100f * randomRotations[i % randomRotations.Length]));
                     break;
+
+                
                 case '[':
                     savedTransforms.Push(new SavedTransform()
                     {

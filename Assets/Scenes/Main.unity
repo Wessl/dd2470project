@@ -491,13 +491,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2495ae83ce4cb1f49809c0cba4b9a6d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  iterations: 5
+  iterations: 6
   angle: 20
-  width: 0.3
+  width: 3
   minLeafLength: 0.5
   maxLeafLength: 3
   minBranchLength: 0.5
-  maxBranchLength: 10
+  maxBranchLength: 1.5
   variance: 80
   tree: {fileID: 1137717541}
   branch: {fileID: 2746178900674513500, guid: 6d4662cd8dc5887429ce5e92fafa0f64, type: 3}

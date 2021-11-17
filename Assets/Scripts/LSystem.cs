@@ -1,8 +1,10 @@
+using System;
 using System.CodeDom.Compiler;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Text;
+using Random = UnityEngine.Random;
 
 public class LSystem : MonoBehaviour
 {
@@ -36,7 +38,7 @@ public class LSystem : MonoBehaviour
             randomRotations[i] = Random.Range(-1.0f, 1.0f);
         }
 
-        rules.Add('X', "[-FX][+FX][FX]");
+        rules.Add('X', "F+[[X]-X]-F[-FX]+X");
         rules.Add('F', "FF");
         transform.position = tree.GetComponent<LineRenderer>().GetPosition(1);
 
@@ -101,8 +103,10 @@ public class LSystem : MonoBehaviour
                     }
                     Debug.Log("length: " + length);
                     currentTreeElement.lineRenderer.SetPosition(1, new Vector3(0, length, 0));
-                    currentTreeElement.lineRenderer.startWidth = currentTreeElement.lineRenderer.startWidth * width;
-                    currentTreeElement.lineRenderer.endWidth = currentTreeElement.lineRenderer.endWidth * width;
+                    double widthDecreaser = Math.Log(i);
+                    double widthDecreaserNext = Math.Log(i + 1);
+                    currentTreeElement.lineRenderer.startWidth = currentTreeElement.lineRenderer.startWidth * width / (float)widthDecreaser;
+                    currentTreeElement.lineRenderer.endWidth = currentTreeElement.lineRenderer.endWidth * width / (float)widthDecreaserNext;
                     currentTreeElement.lineRenderer.sharedMaterial = currentTreeElement.material;
 
                     break;

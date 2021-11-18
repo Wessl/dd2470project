@@ -473,7 +473,7 @@ GameObject:
   - component: {fileID: 1911751116}
   - component: {fileID: 1911751118}
   m_Layer: 0
-  m_Name: PlantGenerator
+  m_Name: PlantGenerator[Fern]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -494,14 +494,19 @@ MonoBehaviour:
   iterations: 6
   angle: 20
   width: 3
+  variance: 80
+  thinnerOverLength: 1
   minLeafLength: 0.5
   maxLeafLength: 3
   minBranchLength: 0.5
   maxBranchLength: 1.5
-  variance: 80
   tree: {fileID: 1137717541}
   branch: {fileID: 2746178900674513500, guid: 6d4662cd8dc5887429ce5e92fafa0f64, type: 3}
   leaf: {fileID: 8160225949361759834, guid: b856b66b77539c24d982fe10ad3e2302, type: 3}
+  selectedRule1: F+[[X]-X]-F[-FX]+X
+  selectedRule2: FF
+  _choiceIndices: 0000000003000000
+  axiom: X
 --- !u!4 &1911751117
 Transform:
   m_ObjectHideFlags: 0

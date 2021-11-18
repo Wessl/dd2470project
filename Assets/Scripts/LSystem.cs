@@ -25,8 +25,13 @@ public class LSystem : MonoBehaviour
     public GameObject branch;
     public GameObject leaf;
     
-    [Tooltip("Do not edit directly, select from dropdown")]
-    public string selectedRule;
+    [HideInInspector]
+    public string selectedRule1;
+    [HideInInspector]
+    public string selectedRule2;
+    [SerializeField]
+    [HideInInspector]
+    public int[] _choiceIndices = new int[]{0,0};
     
     [Tooltip("Be careful about changing this, good default is just 'X'")]
     public string axiom = "X";
@@ -46,8 +51,8 @@ public class LSystem : MonoBehaviour
             randomRotations[i] = Random.Range(-1.0f, 1.0f);
         }
 
-        rules.Add('X', selectedRule);
-        rules.Add('F', "FF");
+        rules.Add('X', selectedRule1);
+        rules.Add('F', selectedRule2);
         transform.position = tree.GetComponent<LineRenderer>().GetPosition(1);
 
         Generate();

@@ -4,24 +4,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Text;
+using UnityEditor;
 using Random = UnityEngine.Random;
 
 public class LSystem : MonoBehaviour
 {
+    [Header("L System parameters")] 
     public int iterations;
     public float angle;
     public float width;
+    public float variance;
+    public bool thinnerOverLength;
+    [Header("Leaf and Branch lengths")] 
     public float minLeafLength;
     public float maxLeafLength;
     public float minBranchLength;
     public float maxBranchLength;
-    public float variance;
-
+    [Header("Prefabs")] 
     public GameObject tree;
     public GameObject branch;
     public GameObject leaf;
-
-    private const string axiom = "X";
+    
+    [Tooltip("Do not edit directly, select from dropdown")]
+    public string selectedRule;
+    
+    [Tooltip("Be careful about changing this, good default is just 'X'")]
+    public string axiom = "X";
 
     private Dictionary<char, string> rules = new Dictionary<char, string>();
     private Stack<SavedTransform> savedTransforms = new Stack<SavedTransform>();
@@ -38,7 +46,7 @@ public class LSystem : MonoBehaviour
             randomRotations[i] = Random.Range(-1.0f, 1.0f);
         }
 
-        rules.Add('X', "F+[[X]-X]-F[-FX]+X");
+        rules.Add('X', selectedRule);
         rules.Add('F', "FF");
         transform.position = tree.GetComponent<LineRenderer>().GetPosition(1);
 
@@ -103,10 +111,14 @@ public class LSystem : MonoBehaviour
                     }
                     Debug.Log("length: " + length);
                     currentTreeElement.lineRenderer.SetPosition(1, new Vector3(0, length, 0));
-                    double widthDecreaser = Math.Log(i);
-                    double widthDecreaserNext = Math.Log(i + 1);
-                    currentTreeElement.lineRenderer.startWidth = currentTreeElement.lineRenderer.startWidth * width / (float)widthDecreaser;
-                    currentTreeElement.lineRenderer.endWidth = currentTreeElement.lineRenderer.endWidth * width / (float)widthDecreaserNext;
+                    double[] widthDecreaser = new double[]{1,1};
+                    if (thinnerOverLength)
+                    {
+                        widthDecreaser[0] = Math.Log(i);
+                        widthDecreaser[1] = Math.Log(i + 1);
+                    }
+                    currentTreeElement.lineRenderer.startWidth = currentTreeElement.lineRenderer.startWidth * width / (float)widthDecreaser[0];
+                    currentTreeElement.lineRenderer.endWidth = currentTreeElement.lineRenderer.endWidth * width / (float)widthDecreaser[1];
                     currentTreeElement.lineRenderer.sharedMaterial = currentTreeElement.material;
 
                     break;
@@ -147,3 +159,4 @@ public class LSystem : MonoBehaviour
         }
     }
 }
+

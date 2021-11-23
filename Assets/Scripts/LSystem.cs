@@ -36,8 +36,8 @@ public class LSystem : MonoBehaviour
     [Tooltip("Be careful about changing this, good default is just 'X'")]
     public string axiom = "X";
 
-    private Dictionary<char, string> rules = new Dictionary<char, string>();
-    private Stack<SavedTransform> savedTransforms = new Stack<SavedTransform>();
+    private Dictionary<char, string> rules;
+    private Stack<SavedTransform> savedTransforms;
     private Vector3 initialPosition;
 
     private string currentPath = "";
@@ -45,20 +45,30 @@ public class LSystem : MonoBehaviour
 
     private void Awake()
     {
+        Setup();
+        Generate();
+    }
+
+    public void Setup()
+    {
+        // Remove potential old parts
+        foreach (Transform child in tree.transform) {
+            Destroy(child.gameObject);
+        }
+        transform.rotation = Quaternion.identity;
         randomRotations = new float[1000];
         for (int i = 0; i < randomRotations.Length; i++)
         {
             randomRotations[i] = Random.Range(-1.0f, 1.0f);
         }
-
+        savedTransforms = new Stack<SavedTransform>();
+        rules = new Dictionary<char, string>();
         rules.Add('X', selectedRule1);
         rules.Add('F', selectedRule2);
         transform.position = tree.GetComponent<LineRenderer>().GetPosition(1);
-
-        Generate();
     }
 
-    private void Generate()
+    public void Generate()
     {
         currentPath = axiom;
 
@@ -95,9 +105,6 @@ public class LSystem : MonoBehaviour
                     else
                     {
                         currentElement = Instantiate(branch, transform.position, transform.rotation);
-                        Debug.Log("branch start width: " + currentElement.GetComponent<LineRenderer>().startWidth);
-                        Debug.Log("branch end width: " + currentElement.GetComponent<LineRenderer>().endWidth);
-
                     }
 
                     currentElement.transform.SetParent(tree.transform);
@@ -114,7 +121,7 @@ public class LSystem : MonoBehaviour
                         length = UnityEngine.Random.Range(minBranchLength, maxBranchLength);
                         transform.Translate(Vector3.up * length);
                     }
-                    Debug.Log("length: " + length);
+                    
                     currentTreeElement.lineRenderer.SetPosition(1, new Vector3(0, length, 0));
                     double[] widthDecreaser = new double[]{1,1};
                     if (thinnerOverLength)
@@ -162,6 +169,8 @@ public class LSystem : MonoBehaviour
                     break;
             }
         }
+        Debug.Log("New tree generated!");
+
     }
 }
 

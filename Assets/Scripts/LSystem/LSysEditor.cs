@@ -5,7 +5,7 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 
 [CustomEditor(typeof(LSystem))]
-public class CustomeEditor : Editor
+public class LSysEditor : Editor
 {
     [SerializeField]
     [HideInInspector]

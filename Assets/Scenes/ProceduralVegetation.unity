@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0.99999905, b: 0.99999905, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -439,9 +439,9 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   colorGradientTexture: {fileID: 0}
   shallowColor: {r: 0, g: 0.7725491, b: 0.62352943, a: 0.5019608}
-  deepColor: {r: 0, g: 0.2599717, b: 0.6509434, a: 1}
+  deepColor: {r: 0, g: 0.25997138, b: 0.6509434, a: 1}
   colorDepth: 1.39
-  horizonColor: {r: 0, g: 0.22733939, b: 0.8, a: 1}
+  horizonColor: {r: 0, g: 0.22733906, b: 0.8, a: 1}
   horizonDistance: 14.45
   shoreFade: 1
   shoreColor: {r: 1, g: 1, b: 1, a: 1}
@@ -449,7 +449,7 @@ MonoBehaviour:
   shoreBlend: 1
   shoreDepth: 0.72
   waveColor: {r: 0, g: 0, b: 0, a: 0}
-  underwaterColor: {r: 0.20381579, g: 0.3096923, b: 0.517647, a: 0.552}
+  underwaterColor: {r: 0.20381546, g: 0.30969194, b: 0.517647, a: 0.552}
   underwaterColorStrength: 0.552
   underwaterRefractionStrength: 0.099
   surfaceFoamTexture: {fileID: 2800000, guid: d3b0d77dfe711a04c8ff18ecc260aa66, type: 3}
@@ -523,6 +523,54 @@ MonoBehaviour:
   meshRenderer: {fileID: 950904655}
   meshFilter: {fileID: 950904656}
   material: {fileID: 2100000, guid: 8aaa66d84e5e3734c9d80569abe197e6, type: 2}
+--- !u!1 &1353655136
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1353655138}
+  - component: {fileID: 1353655137}
+  m_Layer: 0
+  m_Name: 2dMapCreator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1353655137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1353655136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6376ce650fad4242823f4b7d38582ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  top: 0
+  bottom: 0
+  left: 0
+  right: 0
+  mapDimensionSize: 500
+--- !u!4 &1353655138
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1353655136}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1827825140
 GameObject:
   m_ObjectHideFlags: 0
@@ -720,13 +768,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2009053117}
-  m_LocalRotation: {x: 0.13210458, y: 0.3824846, z: -0.05535538, w: 0.91279227}
+  m_LocalRotation: {x: 0.002816976, y: 0.38646773, z: -0.0011803891, w: 0.9222979}
   m_LocalPosition: {x: 80, y: 84.1, z: 112}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 16.47, y: 45.47, z: 0}
+  m_LocalEulerAnglesHint: {x: 0.35, y: 45.47, z: 0}
 --- !u!114 &2009053121
 MonoBehaviour:
   m_ObjectHideFlags: 0

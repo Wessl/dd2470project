@@ -14,15 +14,13 @@ public class MapCreator : MonoBehaviour
     public Terrain terrain;
     private TerrainData terrainData;
     public float circleSamplerRadius;
-    public float perPixelSamplePoints;
 
     void Start()
     {
-        Debug.Log("start...");
-        CreateMap();
+        CreateMeanHeightMap();
     }
 
-    public void CreateMap()
+    public void CreateMeanHeightMap()
     {
         Debug.Log("Going into createMap");
         if (terrain == null)
@@ -43,9 +41,9 @@ public class MapCreator : MonoBehaviour
         int maxWidth = meanHeightMap.width;
         Debug.Log("uuh maxwidth "+ maxWidth);
         // Create mean height map
-        for (int y = 0; y < 60; y++)
+        for (int y = 0; y < maxHeight; y++)
         {
-            for (int x = 0; x < 60; x++)
+            for (int x = 0; x < maxWidth; x++)
             {
                 // For each pixel... sample the values in a circle with some radius around you.
                 //var color = new Vector4(rawHeights[x, y], rawHeights[x, y], rawHeights[x, y], 1);
@@ -60,7 +58,7 @@ public class MapCreator : MonoBehaviour
         string path = EditorUtility.SaveFilePanel(
             "Save texture as",
             "",
-            "Rename Me",
+            "MeanHeightMap",
             "png, jpg");
  
         var extension = Path.GetExtension(path);
@@ -96,8 +94,7 @@ public class MapCreator : MonoBehaviour
         // top, right, bottom, left (clockwise)
         float x_mid = x + 0.5f;
         float y_mid = y + 0.5f;
-        float[,] rectangle = new float[,] { { x_mid, Mathf.Floor(y_mid-r) }, { Mathf.Ceil(x_mid+r), y_mid }, { x_mid, Mathf.Ceil(y_mid+r) }, { Mathf.Floor(x_mid-r), y_mid } };
-        
+        float[,] rectangle = new float[,] { { x, y-r }, { x+r, y }, { x, y+r }, { x-r, y } };
         // Make sure rectangle doesn't go outside of image borders
         if (rectangle[0, 1] < 0) { rectangle[0, 1] = 0; }
         
@@ -106,7 +103,7 @@ public class MapCreator : MonoBehaviour
         if (rectangle[2, 1] > maxY) { rectangle[2, 1] = maxY; }
         
         if (rectangle[3, 0] < 0) { rectangle[3, 0] = 0; }
-        Debug.Log("rectangle is prepared");
+       
         // Now get the indices of the pixels we are interested in
         List<Vector2> indices = new List<Vector2>();
         List<float> distances = new List<float>();
@@ -138,29 +135,11 @@ public class MapCreator : MonoBehaviour
         // Now we know which pixels are within our range - let's calculate how much of them are surrounded by circle
         float colorSum = 0;
         int pixelsTouched = indices.Count;
+        
         for(int i = 0; i < pixelsTouched; i++ )
         {
-            // Sample random points within, how many are within circle?
-            int amountInside = 0;
-            for (int j = 0; j < perPixelSamplePoints; j++)
-            {
-                var pixelX = indices[i].x;
-                var pixelY = indices[i].y;
-                
-                Vector2 resultPoint = new Vector2(Random.Range(pixelX, pixelX + 1f), Random.Range(pixelY, pixelY + 1f));
-                // Is it inside circle?
-                double dx = resultPoint.x - x_mid;
-                double dy = resultPoint.y - y_mid;
-                double distanceSquared = dx * dx + dy * dy;
-
-                if (distanceSquared <= rr)
-                {
-                    amountInside++;
-                }
-            }
-
-            float coverPercent = amountInside / perPixelSamplePoints;
-            colorSum += rawHeights[(int)indices[i].x, (int)indices[i].y] * coverPercent / (distances[i] * pixelsTouched);
+            // Okay, don't sample random points, we dont care about cover percent just distance
+            colorSum += rawHeights[(int)indices[i].x, (int)indices[i].y] / (pixelsTouched);
         }
         return new Vector4(colorSum, colorSum, colorSum, 1);
     }

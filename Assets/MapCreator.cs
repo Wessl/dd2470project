@@ -14,19 +14,23 @@ public class MapCreator : MonoBehaviour
     public Terrain terrain;
     private TerrainData terrainData;
     public float circleSamplerRadius;
+    [Header("Save maps as pictures")] 
+    public bool saveMeanHeightMap;
+    public bool saveRelativeHeightMap;
 
     void Start()
     {
-        CreateMeanHeightMap();
+        Texture2D meanHeightMap = CreateMeanHeightMap();
+        CreateRelativeHeightMap(meanHeightMap);
     }
 
-    public void CreateMeanHeightMap()
+    public Texture2D CreateMeanHeightMap()
     {
         Debug.Log("Going into createMap");
         if (terrain == null)
         {
             EditorUtility.DisplayDialog("No Terrain available!", "Please put your terrain into the MapCreator script", "Ok");
-            return;
+            return null;
         }
         terrainData = terrain.terrainData;
         byte[] bytes;
@@ -52,13 +56,49 @@ public class MapCreator : MonoBehaviour
                 index++;
             }
         }
+
+        if (saveMeanHeightMap)
+        {
+            CreatePicture(meanHeightMap, "meanHeightMap");
+        }
+        
+        return meanHeightMap;
+    }
+
+    public void CreateRelativeHeightMap(Texture2D meanHeightMap)
+    {
+        float[,] rawHeights = terrainData.GetHeights(0, 0, terrainData.heightmapResolution, terrainData.heightmapResolution);
+        Texture2D relativeHeightMap = new Texture2D(terrainData.heightmapResolution, terrainData.heightmapResolution,
+            TextureFormat.ARGB32, false);
+        int maxHeight = meanHeightMap.height;
+        int maxWidth = meanHeightMap.width;
+        var meanHeightMapPixels = meanHeightMap.GetPixels();
+        for (int y = 0; y < maxHeight; y++)
+        {
+            for (int x = 0; x < maxWidth; x++)
+            {
+                // For each pixel... sample the values in a circle with some radius around you.
+                var heightMapPixelColor = meanHeightMapPixels[y * maxWidth + x];
+                var color = new Vector4(rawHeights[x, y] - heightMapPixelColor.a, rawHeights[x, y] - heightMapPixelColor.b, rawHeights[x, y] - heightMapPixelColor.g, 1);
+                relativeHeightMap.SetPixel(x,y, color);
+            }
+        }
+
+        if (saveRelativeHeightMap)
+        {
+            CreatePicture(relativeHeightMap, "relativeHeightMap");
+        }
+    }
+
+    void CreatePicture(Texture2D meanHeightMap, string pictureName)
+    {
         // Apply all SetPixel calls
         meanHeightMap.Apply();
  
         string path = EditorUtility.SaveFilePanel(
             "Save texture as",
             "",
-            "MeanHeightMap",
+            pictureName,
             "png, jpg");
  
         var extension = Path.GetExtension(path);

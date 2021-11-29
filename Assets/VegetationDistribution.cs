@@ -1,9 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class VegetationDistribution : MonoBehaviour
+namespace Assets
 {
+    public class VegetationDistribution : MonoBehaviour
+    {
 
     
+    }
 }

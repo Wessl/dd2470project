@@ -1,14 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
+using Assets.Scripts.LSystem;
 using UnityEngine;
 
-public class MenuButtons : MonoBehaviour
+namespace Assets
 {
-    public LSystem lSystem;
-    // Start is called before the first frame update
-    public void RegenerateLSystem()
+    public class MenuButtons : MonoBehaviour
     {
-        lSystem.Setup();
-        lSystem.Generate();
+        public LSystem lSystem;
+        // Start is called before the first frame update
+        public void RegenerateLSystem()
+        {
+            lSystem.Setup();
+            lSystem.Generate();
+        }
     }
 }

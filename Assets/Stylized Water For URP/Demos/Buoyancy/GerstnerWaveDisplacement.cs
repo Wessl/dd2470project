@@ -5,7 +5,7 @@
 
 using UnityEngine;
 
-namespace StylizedWater
+namespace Assets.Stylized_Water_For_URP.Demos.Buoyancy
 {
     public static class GerstnerWaveDisplacement
     {

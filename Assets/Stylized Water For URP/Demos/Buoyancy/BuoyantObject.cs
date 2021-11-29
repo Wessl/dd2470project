@@ -4,119 +4,121 @@
 //━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━	
 
 using UnityEngine;
-using StylizedWater;
 
-[RequireComponent(typeof(Rigidbody))]
-public class BuoyantObject : MonoBehaviour
+namespace Assets.Stylized_Water_For_URP.Demos.Buoyancy
 {
-    private Color red = new Color(0.92f, 0.25f, 0.2f);
-    private Color green = new Color(0.2f, 0.92f, 0.51f);
-    private Color blue = new Color(0.2f, 0.67f, 0.92f);
-    private Color orange = new Color(0.97f, 0.79f, 0.26f);
-
-    // Wave properties
-    private float steepness;
-    private float wavelength;
-    private float speed;
-    private float[] directions = new float[4];
-
-    [Header("Water Object")]
-    public StylizedWater.StylizedWaterURP water;
-
-    [Header("Buoyancy")]
-    [Range(1, 5)] public float strength = 1f;
-    [Range(0.2f, 5)] public float objectDepth = 1f;
-
-    public float velocityDrag = 0.99f;
-    public float angularDrag = 0.5f;
-
-    [Header("Effectors")]
-    public Transform[] effectors;
-
-    private Rigidbody rb;
-    private Vector3[] effectorProjections;
-
-    void Awake()
+    [RequireComponent(typeof(Rigidbody))]
+    public class BuoyantObject : MonoBehaviour
     {
-        // Get wave properties from water
-        steepness = water.GetWaveSteepness();
-        wavelength = water.GetWaveLength();
-        speed = water.GetWaveSpeed();
-        directions = water.GetWaveDirections();
+        private Color red = new Color(0.92f, 0.25f, 0.2f);
+        private Color green = new Color(0.2f, 0.92f, 0.51f);
+        private Color blue = new Color(0.2f, 0.67f, 0.92f);
+        private Color orange = new Color(0.97f, 0.79f, 0.26f);
 
-        // Get rigidbody
-        rb = GetComponent<Rigidbody>();
-        rb.useGravity = false;
+        // Wave properties
+        private float steepness;
+        private float wavelength;
+        private float speed;
+        private float[] directions = new float[4];
 
-        effectorProjections = new Vector3[effectors.Length];
-        for (int i = 0; i < effectors.Length; i++) effectorProjections[i] = effectors[i].position;
-    }
+        [Header("Water Object")]
+        public StylizedWater.StylizedWaterURP water;
 
-    void OnDisable()
-    {
-        rb.useGravity = true;
-    }
-    
-    void FixedUpdate()
-    {
-        int effectorAmount = effectors.Length;
+        [Header("Buoyancy")]
+        [Range(1, 5)] public float strength = 1f;
+        [Range(0.2f, 5)] public float objectDepth = 1f;
 
-        for (int i = 0; i < effectorAmount; i++)
+        public float velocityDrag = 0.99f;
+        public float angularDrag = 0.5f;
+
+        [Header("Effectors")]
+        public Transform[] effectors;
+
+        private Rigidbody rb;
+        private Vector3[] effectorProjections;
+
+        void Awake()
         {
-            Vector3 effectorPosition = effectors[i].position;
+            // Get wave properties from water
+            steepness = water.GetWaveSteepness();
+            wavelength = water.GetWaveLength();
+            speed = water.GetWaveSpeed();
+            directions = water.GetWaveDirections();
 
-            effectorProjections[i] = effectorPosition;
-            effectorProjections[i].y = water.transform.position.y + GerstnerWaveDisplacement.GetWaveDisplacement(effectorPosition, steepness, wavelength, speed, directions).y;
+            // Get rigidbody
+            rb = GetComponent<Rigidbody>();
+            rb.useGravity = false;
 
-            // gravity
-            rb.AddForceAtPosition(Physics.gravity / effectorAmount, effectorPosition, ForceMode.Acceleration);
+            effectorProjections = new Vector3[effectors.Length];
+            for (int i = 0; i < effectors.Length; i++) effectorProjections[i] = effectors[i].position;
+        }
 
-            float waveHeight = effectorProjections[i].y;
-            float effectorHeight = effectorPosition.y;
+        void OnDisable()
+        {
+            rb.useGravity = true;
+        }
+    
+        void FixedUpdate()
+        {
+            int effectorAmount = effectors.Length;
 
-            if (effectorHeight < waveHeight) // submerged
+            for (int i = 0; i < effectorAmount; i++)
             {
-                float submersion = Mathf.Clamp01(waveHeight - effectorHeight) / objectDepth;
-                float buoyancy = Mathf.Abs(Physics.gravity.y) * submersion * strength;
+                Vector3 effectorPosition = effectors[i].position;
 
-                // buoyancy
-                rb.AddForceAtPosition(Vector3.up * buoyancy, effectorPosition, ForceMode.Acceleration);
+                effectorProjections[i] = effectorPosition;
+                effectorProjections[i].y = water.transform.position.y + GerstnerWaveDisplacement.GetWaveDisplacement(effectorPosition, steepness, wavelength, speed, directions).y;
 
-                // drag
-                rb.AddForce(-rb.velocity * velocityDrag * Time.fixedDeltaTime, ForceMode.VelocityChange);
+                // gravity
+                rb.AddForceAtPosition(Physics.gravity / effectorAmount, effectorPosition, ForceMode.Acceleration);
 
-                // torque
-                rb.AddTorque(-rb.angularVelocity * angularDrag * Time.fixedDeltaTime, ForceMode.Impulse);
+                float waveHeight = effectorProjections[i].y;
+                float effectorHeight = effectorPosition.y;
+
+                if (effectorHeight < waveHeight) // submerged
+                {
+                    float submersion = Mathf.Clamp01(waveHeight - effectorHeight) / objectDepth;
+                    float buoyancy = Mathf.Abs(Physics.gravity.y) * submersion * strength;
+
+                    // buoyancy
+                    rb.AddForceAtPosition(Vector3.up * buoyancy, effectorPosition, ForceMode.Acceleration);
+
+                    // drag
+                    rb.AddForce(-rb.velocity * velocityDrag * Time.fixedDeltaTime, ForceMode.VelocityChange);
+
+                    // torque
+                    rb.AddTorque(-rb.angularVelocity * angularDrag * Time.fixedDeltaTime, ForceMode.Impulse);
+                }
             }
         }
-    }
 
-    private void OnDrawGizmos()
-    {
-        if (effectors == null) return;
-
-        for (int i = 0; i < effectors.Length; i++)
+        private void OnDrawGizmos()
         {
-            if (!Application.isPlaying && effectors[i] != null)
+            if (effectors == null) return;
+
+            for (int i = 0; i < effectors.Length; i++)
             {
-                Gizmos.color = green;
-                Gizmos.DrawSphere(effectors[i].position, 0.06f);
-            }
+                if (!Application.isPlaying && effectors[i] != null)
+                {
+                    Gizmos.color = green;
+                    Gizmos.DrawSphere(effectors[i].position, 0.06f);
+                }
 
-            else
-            {
-                if (effectors[i] == null) return;
+                else
+                {
+                    if (effectors[i] == null) return;
 
-                if (effectors[i].position.y < effectorProjections[i].y) Gizmos.color = red; //submerged
-                else Gizmos.color = green;
+                    if (effectors[i].position.y < effectorProjections[i].y) Gizmos.color = red; //submerged
+                    else Gizmos.color = green;
 
-                Gizmos.DrawSphere(effectors[i].position, 0.06f);
+                    Gizmos.DrawSphere(effectors[i].position, 0.06f);
 
-                Gizmos.color = orange;
-                Gizmos.DrawSphere(effectorProjections[i], 0.06f);
+                    Gizmos.color = orange;
+                    Gizmos.DrawSphere(effectorProjections[i], 0.06f);
 
-                Gizmos.color = blue;
-                Gizmos.DrawLine(effectors[i].position, effectorProjections[i]);
+                    Gizmos.color = blue;
+                    Gizmos.DrawLine(effectors[i].position, effectorProjections[i]);
+                }
             }
         }
     }

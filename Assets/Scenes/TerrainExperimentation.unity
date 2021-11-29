@@ -154,9 +154,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   terrain: {fileID: 1604788463}
   circleSamplerRadius: 10
-  magicAddedNumber: 0.4
+  slopeMapDistSampling: 10
   saveMeanHeightMap: 0
-  saveRelativeHeightMap: 1
+  saveRelativeHeightMap: 0
+  saveSlopeMap: 1
 --- !u!4 &110864309
 Transform:
   m_ObjectHideFlags: 0

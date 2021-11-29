@@ -15,32 +15,36 @@ namespace Assets
         [SerializeField] private Terrain terrain;
         private TerrainData terrainData;
         [SerializeField] private float circleSamplerRadius;
+        [Range(1, 20)]
+        [SerializeField] private int slopeMapDistSampling = 1;
         
         [Header("Save maps as pictures")] 
         [SerializeField] private bool saveMeanHeightMap;
         [SerializeField] private bool saveRelativeHeightMap;
+        [SerializeField] private bool saveSlopeMap;
         private float[,] minAndMaxNeighbourhood;
+        private float[,] rawHeights;
 
         void Start()
-        {
-            float startTime = Time.realtimeSinceStartup;
-            Texture2D meanHeightMap = CreateMeanHeightMap();
-            CreateRelativeHeightMap(meanHeightMap);
-            Debug.Log("Finished creating all maps after " + (Time.realtimeSinceStartup - startTime).ToString("f6") + " seconds.");
-        }
-
-        public Texture2D CreateMeanHeightMap()
         {
             if (terrain == null)
             {
                 EditorUtility.DisplayDialog("No Terrain available!", "Please put your terrain into the MapCreator script", "Ok");
-                return null;
+                return;
             }
             terrainData = terrain.terrainData;
+            rawHeights = terrainData.GetHeights(0, 0, terrainData.heightmapResolution, terrainData.heightmapResolution);
+            float startTime = Time.realtimeSinceStartup;
+            Texture2D meanHeightMap = CreateMeanHeightMap();
+            CreateRelativeHeightMap(meanHeightMap);
+            CreateSlopeMap();
+            Debug.Log("Finished creating all maps after " + (Time.realtimeSinceStartup - startTime).ToString("f6") + " seconds.");
+        }
 
+        private Texture2D CreateMeanHeightMap()
+        {
             Texture2D meanHeightMap = new Texture2D(terrainData.heightmapResolution, terrainData.heightmapResolution,
                 TextureFormat.ARGB32, false);
-            float[,] rawHeights = terrainData.GetHeights(0, 0, terrainData.heightmapResolution, terrainData.heightmapResolution);
             int maxHeight = meanHeightMap.height;
             int maxWidth = meanHeightMap.width;
             minAndMaxNeighbourhood = new float[maxWidth,maxHeight];
@@ -51,7 +55,7 @@ namespace Assets
                 for (int x = 0; x < maxWidth; x++)
                 {
                     // For each pixel... sample the values in a circle with some radius around you.
-                    Vector4 color = GetSurroundingColors(x, y, maxHeight, maxWidth, rawHeights);
+                    Vector4 color = GetSurroundingColors(x, y, maxHeight, maxWidth);
                     meanHeightMap.SetPixel(x,y, color);
                 }
             }
@@ -73,8 +77,6 @@ namespace Assets
          */
         private void CreateRelativeHeightMap(Texture2D meanHeightMap)
         {
-            float[,] rawHeights = terrainData.GetHeights(0, 0, terrainData.heightmapResolution, terrainData.heightmapResolution);
-            
             Texture2D relativeHeightMap = new Texture2D(terrainData.heightmapResolution, terrainData.heightmapResolution,
                 TextureFormat.ARGB32, false);
             if (meanHeightMap == null)
@@ -105,11 +107,57 @@ namespace Assets
                 CreatePicture(relativeHeightMap, "relativeHeightMap");
             }
         }
+        
+        // Calculate the slope at each position of the map in the X and Y directions
+        // Formula, from Hammes' Modeling of ecosystems as a data source for real-time terrain rendering, 2001
+        // deltaX[x,y] = (rawHeights[x+1,y] - rawHeights[x-1,y])/2
+        // deltaY[x,y] = (rawHeights[x,y+1] - rawHeights[x,y-1])/2
+        // Slope = sqrt(deltaX^2 + deltaY^2)
+        private void CreateSlopeMap()
+        {
+            int maxWidth = terrainData.heightmapResolution;
+            int maxHeight = terrainData.heightmapResolution;
+            float[,] deltaX = new float[maxWidth, maxHeight];
+            float[,] deltaY = new float[maxWidth, maxHeight];
+            float[,] slope = new float[maxWidth, maxHeight];
+            int d = slopeMapDistSampling;
+            Texture2D slopeMap = new Texture2D(terrainData.heightmapResolution, terrainData.heightmapResolution,
+                TextureFormat.ARGB32, false);
+            // variables for normalizing
+            float min = float.MaxValue;
+            float max = 0;
+            for (int y = 0; y < maxHeight; y++)
+            {
+                for (int x = 0; x < maxWidth; x++)
+                {
+                    deltaX[x, y] = (rawHeights[( x + d) % maxWidth, y] - rawHeights[Mathf.Max((x - d),0), y]) / 2;
+                    deltaY[x, y] = (rawHeights[x, (y + d) % maxHeight] - rawHeights[x, Mathf.Max((y - d),0)]) / 2;
+                    slope[x, y] = Mathf.Sqrt(Mathf.Pow(deltaX[x, y], 2) + Mathf.Pow(deltaY[x, y], 2));
+                    if (slope[x, y] > max) max = slope[x, y];
+                    if (slope[x, y] < min) min = slope[x, y];
+                }
+            }
+            for (int y = 0; y < maxHeight; y++)
+            {
+                for (int x = 0; x < maxWidth; x++)
+                {
+                    // Normalize before getting color
+                    slope[x, y] = (slope[x, y] - min) / (max + min);
+                    var c = new Color(slope[x, y], slope[x, y], slope[x, y], 1);
+                    slopeMap.SetPixel(x,y,c);
+                }
+            }
+            
+            if (saveSlopeMap)
+            {
+                CreatePicture(slopeMap, "slopeMap");
+            }
+        }
 
-        void CreatePicture(Texture2D meanHeightMap, string pictureName)
+        void CreatePicture(Texture2D mapTexture, string pictureName)
         {
             // Apply all SetPixel calls
-            meanHeightMap.Apply();
+            mapTexture.Apply();
  
             string path = EditorUtility.SaveFilePanel(
                 "Save texture as",
@@ -123,11 +171,11 @@ namespace Assets
             switch(extension)
             {
                 case ".jpg":
-                    pngData = meanHeightMap.EncodeToJPG();
+                    pngData = mapTexture.EncodeToJPG();
                     break;
  
                 case ".png":
-                    pngData = meanHeightMap.EncodeToPNG();
+                    pngData = mapTexture.EncodeToPNG();
                     break;
             }
  
@@ -143,7 +191,7 @@ namespace Assets
             AssetDatabase.Refresh();
         }
 
-        Vector4 GetSurroundingColors(int x, int y, int maxY, int maxX, float[,] rawHeights )
+        Vector4 GetSurroundingColors(int x, int y, int maxY, int maxX)
         {
             // First get bounding rectangle
             float r = circleSamplerRadius;

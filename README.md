@@ -15,3 +15,6 @@ Progress:
 
 * Kind of related:
   - I can make L system 2d trees, wow very cool thanks Kanye
+  
+Other things I use: 
+* For calculating the relative height map, I use a formula from [Miller, Bradley. (2014). Semantic calibration of digital terrain analysis scale. Cartography and Geographic Information Science. 41. 166-176. 10.1080/15230406.2014.883488.](https://www.researchgate.net/publication/261550103_Semantic_calibration_of_digital_terrain_analysis_scale)

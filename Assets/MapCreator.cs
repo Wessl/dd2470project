@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Assets.Scripts;
 using Unity.Mathematics;
 using UnityEditor;
 using UnityEngine;
@@ -14,9 +15,7 @@ namespace Assets
         [SerializeField] private Terrain terrain;
         private TerrainData terrainData;
         [SerializeField] private float circleSamplerRadius;
-
-        [Header("Relative height map settings")] 
-        [SerializeField] private float magicAddedNumber;
+        
         [Header("Save maps as pictures")] 
         [SerializeField] private bool saveMeanHeightMap;
         [SerializeField] private bool saveRelativeHeightMap;
@@ -87,14 +86,15 @@ namespace Assets
             int maxHeight = meanHeightMap.height;
             int maxWidth = meanHeightMap.width;
             float[,] inverse = new float[maxWidth, maxHeight];
-            
+            float avgHeight = Utility.JaggedArrAvg(rawHeights);
+            Debug.Log("Average height: " + avgHeight);
             for (int y = 0; y < maxHeight; y++)
             {
                 for (int x = 0; x < maxWidth; x++)
                 {
                     // For each pixel... calculate inverse, then subtract inverse value from rawHeights
                     inverse[x, y] = minAndMaxNeighbourhood[x, y] - rawHeights[x, y];
-                    var colorVal = rawHeights[x, y] - inverse[x,y] + magicAddedNumber;
+                    var colorVal = rawHeights[x, y] - inverse[x,y] + avgHeight;
                     var color = new Vector4(colorVal, colorVal, colorVal, 1);
                     relativeHeightMap.SetPixel(x,y, color);
                 }

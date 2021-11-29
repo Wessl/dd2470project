@@ -52,7 +52,7 @@ namespace Assets.Scripts
             string path = EditorUtility.SaveFilePanel(
                 "Save texture as",
                 "",
-                "Rename Me",
+                "heightMap",
                 "png, jpg");
  
             var extension = Path.GetExtension(path);

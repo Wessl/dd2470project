@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using Unity.Mathematics;
 using UnityEditor;
 using UnityEngine;
 
@@ -12,9 +14,13 @@ namespace Assets
         [SerializeField] private Terrain terrain;
         private TerrainData terrainData;
         [SerializeField] private float circleSamplerRadius;
+
+        [Header("Relative height map settings")] 
+        [SerializeField] private float magicAddedNumber;
         [Header("Save maps as pictures")] 
         [SerializeField] private bool saveMeanHeightMap;
         [SerializeField] private bool saveRelativeHeightMap;
+        private float[,] minAndMaxNeighbourhood;
 
         void Start()
         {
@@ -38,6 +44,7 @@ namespace Assets
             float[,] rawHeights = terrainData.GetHeights(0, 0, terrainData.heightmapResolution, terrainData.heightmapResolution);
             int maxHeight = meanHeightMap.height;
             int maxWidth = meanHeightMap.width;
+            minAndMaxNeighbourhood = new float[maxWidth,maxHeight];
         
             // Create mean height map, Run through the array row by row
             for (int y = 0; y < maxHeight; y++)
@@ -57,10 +64,18 @@ namespace Assets
         
             return meanHeightMap;
         }
-
-        public void CreateRelativeHeightMap(Texture2D meanHeightMap)
+        
+        /*
+         *  https://www.researchgate.net/publication/261550103_Semantic_calibration_of_digital_terrain_analysis_scale?enrichId=rgreq-cb88bb3ef20c7892033eb9a83eafba72-XXX&enrichSource=Y292ZXJQYWdlOzI2MTU1MDEwMztBUzoxMDIzNjU3NDcyMjA0OTBAMTQwMTQxNzMwNDgzMg%3D%3D&el=1_x_3&_esc=publicationCoverPdf
+         *  Method: Using the sum of the min and max values of the local neighbourhood (area from mean height map),
+         *          Calculate inverse = (min + max) - originalHeightMap
+         *          Calculate relativeHeightMap = originalHeightMap - inverse
+         *  So basically, they (aka the OG authors) was wrong as hell, research destroyed :sunglasses:
+         */
+        private void CreateRelativeHeightMap(Texture2D meanHeightMap)
         {
             float[,] rawHeights = terrainData.GetHeights(0, 0, terrainData.heightmapResolution, terrainData.heightmapResolution);
+            
             Texture2D relativeHeightMap = new Texture2D(terrainData.heightmapResolution, terrainData.heightmapResolution,
                 TextureFormat.ARGB32, false);
             if (meanHeightMap == null)
@@ -68,20 +83,23 @@ namespace Assets
                 Debug.Log("There is no mean height map data available.");
                 return;
             }
+            
             int maxHeight = meanHeightMap.height;
             int maxWidth = meanHeightMap.width;
-            var meanHeightMapPixels = meanHeightMap.GetPixels();
+            float[,] inverse = new float[maxWidth, maxHeight];
+            
             for (int y = 0; y < maxHeight; y++)
             {
                 for (int x = 0; x < maxWidth; x++)
                 {
-                    // For each pixel... sample the values in a circle with some radius around you.
-                    var heightMapPixelColor = meanHeightMapPixels[y * maxWidth + x];
-                    var color = new Vector4(rawHeights[x, y] - heightMapPixelColor.a, rawHeights[x, y] - heightMapPixelColor.b, rawHeights[x, y] - heightMapPixelColor.g, 1);
+                    // For each pixel... calculate inverse, then subtract inverse value from rawHeights
+                    inverse[x, y] = minAndMaxNeighbourhood[x, y] - rawHeights[x, y];
+                    var colorVal = rawHeights[x, y] - inverse[x,y] + magicAddedNumber;
+                    var color = new Vector4(colorVal, colorVal, colorVal, 1);
                     relativeHeightMap.SetPixel(x,y, color);
                 }
             }
-
+            
             if (saveRelativeHeightMap)
             {
                 CreatePicture(relativeHeightMap, "relativeHeightMap");
@@ -160,17 +178,25 @@ namespace Assets
                     }
                 }
             }
-        
             // Now we know which pixels are within our range - let's calculate how much of them are surrounded by circle
             float colorSum = 0;
             int pixelsTouched = indices.Count;
+            // Also calculate the sum of the min and max of this neighbourhood
+            float min = float.MaxValue;
+            float max = 0;
+
             for( int i = 0; i < pixelsTouched; i++ )
             {
-                // Okay, don't sample random points, we dont care about cover percent just distance
-                colorSum += rawHeights[(int)indices[i].x, (int)indices[i].y] / (pixelsTouched);
+                // For each pixel, what is the height at that pixel? Divide that by the total amount,
+                // to get the percentage of contribution to the total color value
+                var heightAtPixel = rawHeights[(int) indices[i].x, (int) indices[i].y];
+                colorSum += heightAtPixel / (pixelsTouched);
+                if (heightAtPixel > max) max = heightAtPixel;
+                if (heightAtPixel < min) min = heightAtPixel;
             }
+
+            minAndMaxNeighbourhood[x, y] = min + max;
             return new Vector4(colorSum, colorSum, colorSum, 1);
         }
-
     }
 }

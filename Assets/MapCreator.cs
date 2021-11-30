@@ -17,13 +17,46 @@ namespace Assets
         [SerializeField] private float circleSamplerRadius;
         [Range(1, 20)]
         [SerializeField] private int slopeMapDistSampling = 1;
+
+        [Header("Manually created maps")] 
+        [SerializeField] private Texture2D waterMap;
+        [SerializeField] private Texture2D waterSpreadMap;
         
         [Header("Save maps as pictures")] 
         [SerializeField] private bool saveMeanHeightMap;
         [SerializeField] private bool saveRelativeHeightMap;
         [SerializeField] private bool saveSlopeMap;
+        [SerializeField] private bool saveMoistureMap;
+        
+        [Header("Map weights")]
+        [SerializeField] private float heightMapWeight;
+        [SerializeField] private float slopeMapWeight;
+        [SerializeField] private float relativeHeightMapWeight;
+        [SerializeField] [Range(0f, 1f)] 
+        [Tooltip("Attenuates the direct contribution of the relative height on moisture map")] private float omega;
+
+        [Header("Influence curves")] 
+        [SerializeField] private AnimationCurve heightMapCurve;
+        [SerializeField] private AnimationCurve slopeMapCurve;
+        [SerializeField] private AnimationCurve relativeHeightMapCurve;
+        [SerializeField] private AnimationCurve verticalWaterSpreadCurve;
+        
         private float[,] minAndMaxNeighbourhood;
         private float[,] rawHeights;
+        // global maps
+        private Texture2D slopeMap;
+        private float[,] rawSlopes;
+        private Texture2D relativeHeightMap;
+        private float[,] rawRelativeHeights;
+        private float[,] rawWaterSpread;
+        private float[,] rawWater;
+        private float[,] rawMoisture;
+        
+        // global vars
+        // terrain map dimensions
+        private int maxWidth;
+        private int maxHeight;
+        
 
         void Start()
         {
@@ -33,12 +66,63 @@ namespace Assets
                 return;
             }
             terrainData = terrain.terrainData;
+            maxHeight = terrainData.heightmapResolution;
+            maxWidth = terrainData.heightmapResolution;
             rawHeights = terrainData.GetHeights(0, 0, terrainData.heightmapResolution, terrainData.heightmapResolution);
             float startTime = Time.realtimeSinceStartup;
+            // Start by reading in water and water spread map since those are created separately/manually for now
+            ReadWaterMaps();
             Texture2D meanHeightMap = CreateMeanHeightMap();
             CreateRelativeHeightMap(meanHeightMap);
             CreateSlopeMap();
+            CreateMoistureMap();
             Debug.Log("Finished creating all maps after " + (Time.realtimeSinceStartup - startTime).ToString("f6") + " seconds.");
+        }
+
+        private void CreateMoistureMap()
+        {
+            Texture2D moistureMap = new Texture2D(terrainData.heightmapResolution, terrainData.heightmapResolution,
+                TextureFormat.ARGB32, false);
+            int maxHeight = moistureMap.height;
+            int maxWidth = moistureMap.width;
+            rawMoisture = new float[maxWidth, maxHeight];
+            // Use all other generated maps and influence curves to create moisture map
+            for (int y = 0; y < maxHeight; y++)
+            {
+                for (int x = 0; x < maxWidth; x++)
+                {
+                    // 1. Base moisture value. Evaluate height value at coordinate (x,y) on the influence curve of the height and its associated weight
+                    float baseMoisture = heightMapCurve.Evaluate(rawHeights[x, y]) * heightMapWeight;
+                    // 2 & 3. Slope influence value and relative height influence value 
+                    float slopeInfluence = slopeMapCurve.Evaluate(rawSlopes[x, y]) * slopeMapWeight;
+                    float relativeHeight =
+                        relativeHeightMapCurve.Evaluate(rawRelativeHeights[x, y]) * relativeHeightMapWeight;
+                    // 4. Relative moisture. Based upon topographic characteristics of the terrain represented by relative height and slope maps. 
+                    // This value acts as an indicator of regions where soil moisture naturally accumulates or declines
+                    float relativeMoisture = relativeHeight - slopeInfluence + 1;
+                    // 5. Water spread. Evaluates influence of the Relative Height over the vertical water spread from a water body
+                    float waterSpread = rawWater[x, y] + rawWaterSpread[x, y] *
+                        verticalWaterSpreadCurve.Evaluate(rawRelativeHeights[x, y]);
+                    // 6. Moisture map is finally computed by compiling values from other maps.
+                    float moisture =
+                        Utility.Saturate((baseMoisture + waterSpread) * relativeMoisture + (relativeHeight * omega)) +
+                        waterSpread;
+                    if (x == 100)
+                    {
+                        Debug.Log(" i want to see. what is value before saturate? " + ((baseMoisture + waterSpread) * relativeMoisture + (relativeHeight * omega)) +
+                            waterSpread );
+                    }
+                    rawMoisture[x, y] = moisture;
+                    Vector4 color = new Vector4(moisture, moisture, moisture, 1);
+                    moistureMap.SetPixel(x,y,color);
+                }
+            }
+
+            if (saveMoistureMap)
+            {
+                CreatePicture(moistureMap, "moistureMap");
+            }
+           
         }
 
         private Texture2D CreateMeanHeightMap()
@@ -77,16 +161,15 @@ namespace Assets
          */
         private void CreateRelativeHeightMap(Texture2D meanHeightMap)
         {
-            Texture2D relativeHeightMap = new Texture2D(terrainData.heightmapResolution, terrainData.heightmapResolution,
+            relativeHeightMap = new Texture2D(terrainData.heightmapResolution, terrainData.heightmapResolution,
                 TextureFormat.ARGB32, false);
             if (meanHeightMap == null)
             {
                 Debug.Log("There is no mean height map data available.");
                 return;
             }
-            
-            int maxHeight = meanHeightMap.height;
-            int maxWidth = meanHeightMap.width;
+
+            rawRelativeHeights = new float[maxWidth, maxHeight];
             float[,] inverse = new float[maxWidth, maxHeight];
             float avgHeight = Utility.JaggedArrAvg(rawHeights);
             Debug.Log("Average height: " + avgHeight);
@@ -97,6 +180,7 @@ namespace Assets
                     // For each pixel... calculate inverse, then subtract inverse value from rawHeights
                     inverse[x, y] = minAndMaxNeighbourhood[x, y] - rawHeights[x, y];
                     var colorVal = rawHeights[x, y] - inverse[x,y] + avgHeight;
+                    rawRelativeHeights[x, y] = colorVal;
                     var color = new Vector4(colorVal, colorVal, colorVal, 1);
                     relativeHeightMap.SetPixel(x,y, color);
                 }
@@ -119,9 +203,9 @@ namespace Assets
             int maxHeight = terrainData.heightmapResolution;
             float[,] deltaX = new float[maxWidth, maxHeight];
             float[,] deltaY = new float[maxWidth, maxHeight];
-            float[,] slope = new float[maxWidth, maxHeight];
+            rawSlopes = new float[maxWidth, maxHeight];
             int d = slopeMapDistSampling;
-            Texture2D slopeMap = new Texture2D(terrainData.heightmapResolution, terrainData.heightmapResolution,
+            slopeMap = new Texture2D(terrainData.heightmapResolution, terrainData.heightmapResolution,
                 TextureFormat.ARGB32, false);
             // variables for normalizing
             float min = float.MaxValue;
@@ -132,9 +216,9 @@ namespace Assets
                 {
                     deltaX[x, y] = (rawHeights[( x + d) % maxWidth, y] - rawHeights[Mathf.Max((x - d),0), y]) / 2;
                     deltaY[x, y] = (rawHeights[x, (y + d) % maxHeight] - rawHeights[x, Mathf.Max((y - d),0)]) / 2;
-                    slope[x, y] = Mathf.Sqrt(Mathf.Pow(deltaX[x, y], 2) + Mathf.Pow(deltaY[x, y], 2));
-                    if (slope[x, y] > max) max = slope[x, y];
-                    if (slope[x, y] < min) min = slope[x, y];
+                    rawSlopes[x, y] = Mathf.Sqrt(Mathf.Pow(deltaX[x, y], 2) + Mathf.Pow(deltaY[x, y], 2));
+                    if (rawSlopes[x, y] > max) max = rawSlopes[x, y];
+                    if (rawSlopes[x, y] < min) min = rawSlopes[x, y];
                 }
             }
             for (int y = 0; y < maxHeight; y++)
@@ -142,8 +226,8 @@ namespace Assets
                 for (int x = 0; x < maxWidth; x++)
                 {
                     // Normalize before getting color
-                    slope[x, y] = (slope[x, y] - min) / (max + min);
-                    var c = new Color(slope[x, y], slope[x, y], slope[x, y], 1);
+                    rawSlopes[x, y] = (rawSlopes[x, y] - min) / (max + min);
+                    var c = new Color(rawSlopes[x, y], rawSlopes[x, y], rawSlopes[x, y], 1);
                     slopeMap.SetPixel(x,y,c);
                 }
             }
@@ -245,6 +329,25 @@ namespace Assets
 
             minAndMaxNeighbourhood[x, y] = min + max;
             return new Vector4(colorSum, colorSum, colorSum, 1);
+        }
+
+        private void ReadWaterMaps()
+        {
+            // Go over the maps and store the values into raw jagged value arrays
+            var waterMapPixels = waterMap.GetPixels();
+            var waterSpreadMapPixels = waterSpreadMap.GetPixels();
+            rawWater = new float[maxWidth, maxHeight];
+            rawWaterSpread = new float[maxWidth, maxHeight];
+            int sqrLen = (int)Mathf.Sqrt(waterMapPixels.Length);
+            for (int y = 0; y < sqrLen; y+=4)
+            {
+                for (int x = 0; x < sqrLen; x+=4)
+                {
+                    // Get the value at this pixel. Since it's grayscale, R==G==B so it doesn't matter which we use
+                    rawWater[x/4, y/4] = waterMapPixels[y * sqrLen + x].r;
+                    rawWaterSpread[x/4, y/4] = waterSpreadMapPixels[y * sqrLen + x].r;
+                }
+            }
         }
     }
 }

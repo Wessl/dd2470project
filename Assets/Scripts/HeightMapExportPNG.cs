@@ -75,7 +75,7 @@ namespace Assets.Scripts
                 EditorUtility.DisplayDialog("Heightmap Duplicated", "Saved as" + extension + " in " + path, "Pog");
             }else
             {
-                EditorUtility.DisplayDialog("Failed to duplicate height map", "eh something happen hu? lol", "Check Script");
+                EditorUtility.DisplayDialog("Failed to duplicate height map", "WHAD ARE U DOIN??? Y U NO SAVE", "やばい");
             }
  
             AssetDatabase.Refresh();

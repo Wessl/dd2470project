@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0.99999905, b: 0.99999905, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -155,44 +155,154 @@ MonoBehaviour:
   terrain: {fileID: 1604788463}
   circleSamplerRadius: 8
   slopeMapDistSampling: 5
-  waterMap: {fileID: 0}
-  waterSpreadMap: {fileID: 0}
+  waterMap: {fileID: 2800000, guid: 7004a26589f1c4444b9e177ea7d320b7, type: 3}
+  waterSpreadMap: {fileID: 2800000, guid: a5a980abded25034284c5982df75a024, type: 3}
   saveMeanHeightMap: 1
   saveRelativeHeightMap: 1
   saveSlopeMap: 1
+  saveMoistureMap: 1
+  heightMapWeight: 0.4
+  slopeMapWeight: 0.6
+  relativeHeightMapWeight: 0.4
+  omega: 1
   heightMapCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
       value: 1
-      inSlope: 0
-      outSlope: 0
+      inSlope: -0.37811598
+      outSlope: -0.37811598
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.5969308
+      value: 0.7742909
+      inSlope: -0.45276543
+      outSlope: -0.45276543
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.15606505
+      outWeight: 0.33333334
     - serializedVersion: 3
       time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
+      value: 0
+      inSlope: -1.9209876
+      outSlope: -1.9209876
       tangentMode: 34
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.33333334
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
   slopeMapCurve:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -0.08830158
+      outSlope: -0.08830158
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.12402364
+    - serializedVersion: 3
+      time: 0.5223799
+      value: 0.765946
+      inSlope: -1.696831
+      outSlope: -1.696831
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.085033126
+      outWeight: 0.44837835
+    - serializedVersion: 3
+      time: 0.6322518
+      value: 0.29276136
+      inSlope: -2.2118492
+      outSlope: -2.2118492
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0.04216216
+      outSlope: 0.04216216
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.2063223
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
   relativeHeightMapCurve:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -2.4707286
+      outSlope: -2.4707286
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.3142674
+      value: 0.2235305
+      inSlope: -0.75197595
+      outSlope: -0.75197595
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.10038855
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -0.32597327
+      outSlope: -0.32597327
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  verticalWaterSpreadCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -2.5316782
+      outSlope: -2.5316782
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.32358357
+      value: 0.18079051
+      inSlope: -0.97661066
+      outSlope: -0.97661066
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.099147506
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -0.26727694
+      outSlope: -0.26727694
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4

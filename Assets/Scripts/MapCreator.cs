@@ -95,22 +95,18 @@ namespace Assets
                     float baseMoisture = heightMapCurve.Evaluate(rawHeights[x, y]) * heightMapWeight;
                     // 2 & 3. Slope influence value and relative height influence value 
                     float slopeInfluence = slopeMapCurve.Evaluate(rawSlopes[x, y]) * slopeMapWeight;
-                    float relativeHeight =
-                        relativeHeightMapCurve.Evaluate(rawRelativeHeights[x, y]) * relativeHeightMapWeight;
+                    float relativeHeight = relativeHeightMapCurve.Evaluate(rawRelativeHeights[x, y]) * relativeHeightMapWeight;
                     // 4. Relative moisture. Based upon topographic characteristics of the terrain represented by relative height and slope maps. 
                     // This value acts as an indicator of regions where soil moisture naturally accumulates or declines
                     float relativeMoisture = relativeHeight - slopeInfluence + 1;
                     // 5. Water spread. Evaluates influence of the Relative Height over the vertical water spread from a water body
-                    float waterSpread = rawWater[x, y] + rawWaterSpread[x, y] *
-                        verticalWaterSpreadCurve.Evaluate(rawRelativeHeights[x, y]);
+                    float waterSpread = rawWater[x, y] + rawWaterSpread[x, y] * verticalWaterSpreadCurve.Evaluate(rawRelativeHeights[x, y]);
                     // 6. Moisture map is finally computed by compiling values from other maps.
-                    float moisture =
-                        Utility.Saturate((baseMoisture + waterSpread) * relativeMoisture + (relativeHeight * omega)) +
-                        waterSpread;
+                    float moisture = Utility.Saturate((baseMoisture + waterSpread) * relativeMoisture + (relativeHeight * omega)) + waterSpread;
                     if (x == 100)
                     {
-                        Debug.Log(" i want to see. what is value before saturate? " + ((baseMoisture + waterSpread) * relativeMoisture + (relativeHeight * omega)) +
-                            waterSpread );
+                        
+
                     }
                     rawMoisture[x, y] = moisture;
                     Vector4 color = new Vector4(moisture, moisture, moisture, 1);
@@ -345,7 +341,7 @@ namespace Assets
                 {
                     // Get the value at this pixel. Since it's grayscale, R==G==B so it doesn't matter which we use
                     rawWater[x/4, y/4] = waterMapPixels[y * sqrLen + x].r;
-                    rawWaterSpread[x/4, y/4] = waterSpreadMapPixels[y * sqrLen + x].r;
+                    rawWaterSpread[x/4, y/4] = waterSpreadMapPixels[y * sqrLen + x].a;  // ninja note: this one uses alpha instead because the generated water spread map stores the spread on the alpha channel, nothing we can do about it
                 }
             }
         }

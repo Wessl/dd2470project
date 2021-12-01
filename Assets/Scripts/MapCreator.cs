@@ -102,11 +102,6 @@ public class MapCreator : MonoBehaviour
                 float waterSpread = rawWater[x, y] + rawWaterSpread[x, y] * verticalWaterSpreadCurve.Evaluate(rawRelativeHeights[x, y]);
                 // 6. Moisture map is finally computed by compiling values from other maps.
                 float moisture = Utility.Saturate((baseMoisture + waterSpread) * relativeMoisture + (relativeHeight * omega)) + waterSpread;
-                if (x == 100)
-                {
-                    
-
-                }
                 rawMoisture[x, y] = moisture;
                 Vector4 color = new Vector4(moisture, moisture, moisture, 1);
                 moistureMap.SetPixel(x,y,color);
@@ -326,13 +321,13 @@ public class MapCreator : MonoBehaviour
         rawWater = new float[maxWidth, maxHeight];
         rawWaterSpread = new float[maxWidth, maxHeight];
         int sqrLen = (int)Mathf.Sqrt(waterMapPixels.Length);
-        for (int y = 0; y < sqrLen; y+=4)
+        for (int y = 0; y < sqrLen; y++)
         {
-            for (int x = 0; x < sqrLen; x+=4)
+            for (int x = 0; x < sqrLen; x++)
             {
                 // Get the value at this pixel. Since it's grayscale, R==G==B so it doesn't matter which we use
-                rawWater[x/4, y/4] = waterMapPixels[y * sqrLen + x].r;
-                rawWaterSpread[x/4, y/4] = waterSpreadMapPixels[y * sqrLen + x].a;  // ninja note: this one uses alpha instead because the generated water spread map stores the spread on the alpha channel, nothing we can do about it
+                rawWater[x, y] = waterMapPixels[y * sqrLen + x].r;
+                rawWaterSpread[x, y] = waterSpreadMapPixels[y * sqrLen + x].a;  // ninja note: this one uses alpha instead because the generated water spread map stores the spread on the alpha channel, nothing we can do about it
             }
         }
     }

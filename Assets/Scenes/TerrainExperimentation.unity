@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0.99999905, b: 0.99999905, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -152,9 +152,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6376ce650fad4242823f4b7d38582ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  terrain: {fileID: 1604788463}
-  circleSamplerRadius: 8
-  slopeMapDistSampling: 5
+  circleSamplerRadius: 10
+  slopeMapDistSampling: 6
   waterMap: {fileID: 2800000, guid: 7004a26589f1c4444b9e177ea7d320b7, type: 3}
   waterSpreadMap: {fileID: 2800000, guid: a5a980abded25034284c5982df75a024, type: 3}
   saveMeanHeightMap: 1
@@ -162,24 +161,24 @@ MonoBehaviour:
   saveSlopeMap: 1
   saveMoistureMap: 1
   heightMapWeight: 0.4
-  slopeMapWeight: 0.6
+  slopeMapWeight: 0.4
   relativeHeightMapWeight: 0.4
-  omega: 1
+  omega: 0.279
   heightMapCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
       value: 1
-      inSlope: -0.37811598
-      outSlope: -0.37811598
+      inSlope: -1.1829878
+      outSlope: -1.1829878
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.5969308
-      value: 0.7742909
+      time: 0.47596306
+      value: 0.4369415
       inSlope: -0.45276543
       outSlope: -0.45276543
       tangentMode: 0
@@ -189,8 +188,8 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 1
       value: 0
-      inSlope: -1.9209876
-      outSlope: -1.9209876
+      inSlope: -0.83379906
+      outSlope: -0.83379906
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
@@ -246,15 +245,15 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 1
-      inSlope: -2.4707286
-      outSlope: -2.4707286
+      inSlope: -1.5074643
+      outSlope: -1.5074643
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.3142674
-      value: 0.2235305
+      time: 0.42716718
+      value: 0.35606074
       inSlope: -0.75197595
       outSlope: -0.75197595
       tangentMode: 0
@@ -264,8 +263,8 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 1
       value: 0
-      inSlope: -0.32597327
-      outSlope: -0.32597327
+      inSlope: -0.6215788
+      outSlope: -0.6215788
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
@@ -306,6 +305,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  terrain: {fileID: 1604788463}
 --- !u!4 &110864309
 Transform:
   m_ObjectHideFlags: 0

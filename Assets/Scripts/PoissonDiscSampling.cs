@@ -36,9 +36,8 @@ public static class PoissonDiscSampling
             {
                 spawnPoints.RemoveAt(spawnIndex);
             }
-
-            return points;
         }
+        return points;
     }
 
     static bool IsValid(Vector2 candidate, Vector2 sampleRegionSize, float cellSize, float radius, List<Vector2> points, int[,] grid)

@@ -152,12 +152,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac9526179fef6864084f8d7e089d86c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mapCreator: {fileID: 0}
+  pddSamples: 0
+  regenerateMapsBeforePlacement: 0
+  heightMap: {fileID: 0}
+  moistureMap: {fileID: 0}
+  densityMap: {fileID: 0}
+  slopeMap: {fileID: 0}
+  waterMap: {fileID: 0}
+  waterSpreadMap: {fileID: 0}
   L1Plants:
   - {fileID: 8992950790262190596, guid: 2739ed93ed079624490826c0b727d922, type: 3}
   - {fileID: 3977693881597732924, guid: 797ea333d18f81947a89a81e625a10a7, type: 3}
   - {fileID: 5696477920863641230, guid: a95f5f9cf2f18e04384ea5b99bbda9d6, type: 3}
+  L1Radius: 0
   L2Plants: []
+  L2Radius: 0
   L3Plants: []
+  L3Radius: 0
 --- !u!4 &8544456
 Transform:
   m_ObjectHideFlags: 0
@@ -205,10 +217,10 @@ MonoBehaviour:
   slopeMapDistSampling: 6
   waterMap: {fileID: 2800000, guid: 7004a26589f1c4444b9e177ea7d320b7, type: 3}
   waterSpreadMap: {fileID: 2800000, guid: a5a980abded25034284c5982df75a024, type: 3}
-  saveMeanHeightMap: 1
-  saveRelativeHeightMap: 1
+  saveMeanHeightMap: 0
+  saveRelativeHeightMap: 0
   saveSlopeMap: 1
-  saveMoistureMap: 1
+  saveMoistureMap: 0
   heightMapWeight: 0.4
   slopeMapWeight: 0.4
   relativeHeightMapWeight: 0.4

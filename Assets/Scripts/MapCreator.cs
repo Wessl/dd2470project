@@ -183,8 +183,6 @@ public class MapCreator : MonoBehaviour
     // Slope = sqrt(deltaX^2 + deltaY^2)
     private void CreateSlopeMap()
     {
-        int maxWidth = terrainData.heightmapResolution;
-        int maxHeight = terrainData.heightmapResolution;
         float[,] deltaX = new float[maxWidth, maxHeight];
         float[,] deltaY = new float[maxWidth, maxHeight];
         rawSlopes = new float[maxWidth, maxHeight];
@@ -193,13 +191,13 @@ public class MapCreator : MonoBehaviour
             TextureFormat.ARGB32, false);
         // variables for normalizing
         float min = float.MaxValue;
-        float max = 0;
+        float max = float.MinValue;
         for (int y = 0; y < maxHeight; y++)
         {
             for (int x = 0; x < maxWidth; x++)
             {
-                deltaX[x, y] = (rawHeights[( x + d) % maxWidth, y] - rawHeights[Mathf.Max((x - d),0), y]) / 2;
-                deltaY[x, y] = (rawHeights[x, (y + d) % maxHeight] - rawHeights[x, Mathf.Max((y - d),0)]) / 2;
+                deltaX[x, y] = (rawHeights[Mathf.Min((x + d),maxWidth-1), y] - rawHeights[Mathf.Max((x - d),0), y]) / 2;
+                deltaY[x, y] = (rawHeights[x, Mathf.Min((y + d),maxHeight-1)] - rawHeights[x, Mathf.Max((y - d),0)]) / 2;
                 rawSlopes[x, y] = Mathf.Sqrt(Mathf.Pow(deltaX[x, y], 2) + Mathf.Pow(deltaY[x, y], 2));
                 if (rawSlopes[x, y] > max) max = rawSlopes[x, y];
                 if (rawSlopes[x, y] < min) min = rawSlopes[x, y];

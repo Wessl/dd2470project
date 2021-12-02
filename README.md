@@ -34,3 +34,20 @@ Progress:
   
 Other things I use: 
 * For calculating the relative height map, I use a formula from [Miller, Bradley. (2014). Semantic calibration of digital terrain analysis scale. Cartography and Geographic Information Science. 41. 166-176. 10.1080/15230406.2014.883488.](https://www.researchgate.net/publication/261550103_Semantic_calibration_of_digital_terrain_analysis_scale)
+
+## Showcase
+
+### Maps of the terrain
+<p align="left">
+  <img src="/Assets/TerrainImages/heightMap.png" width="256" />
+  <img src="/Assets/TerrainImages/meanHeightMap.png" width="256" /> 
+</p>
+<p align="left">
+  <img src="/Assets/TerrainImages/relativeHeightMap.png" width="256" />
+  <img src="/Assets/TerrainImages/slopeMap.png" width="256" /> 
+</p>
+<p align="left">
+  <img src="/Assets/TerrainImages/waterMap.png" width="256" />
+  <img src="/Assets/TerrainImages/waterSpreadMap.png" width="256" /> 
+  <img src="/Assets/TerrainImages/moistureMap.png" width="256" /> 
+</p>

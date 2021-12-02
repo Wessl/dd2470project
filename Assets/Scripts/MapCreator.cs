@@ -47,12 +47,12 @@ public class MapCreator : MonoBehaviour
     private float[,] rawWaterSpread;
     private float[,] rawWater;
     private float[,] rawMoisture;
-    
+
     // global vars
     // terrain map dimensions
     private int maxWidth;
     private int maxHeight;
-    public Vector2 Dimensions  => new Vector2(maxWidth, maxHeight);
+    public Vector2Int Dimensions  => new Vector2Int(maxWidth, maxHeight);
 
     // the terrain itself (tremendously important)
     [SerializeField] private Terrain terrain;
@@ -222,9 +222,9 @@ public class MapCreator : MonoBehaviour
 
     void CreatePicture(Texture2D mapTexture, string pictureName)
     {
-        // Apply all SetPixel calls
-        mapTexture.Apply();
-
+        // Apply all SetPixel calls (update mipMaps, dont set to make it unreadable
+        mapTexture.Apply(true, false);
+        
         string path = EditorUtility.SaveFilePanel(
             "Save texture as",
             "",
@@ -244,7 +244,7 @@ public class MapCreator : MonoBehaviour
                 pngData = mapTexture.EncodeToPNG();
                 break;
         }
-
+        
         if (pngData != null)
         {
             File.WriteAllBytes(path, pngData);
@@ -253,7 +253,6 @@ public class MapCreator : MonoBehaviour
         {
             EditorUtility.DisplayDialog("Failed to duplicate height map", "聖夜のスペシャルシューティングスター", "やばい");
         }
-
         AssetDatabase.Refresh();
     }
 

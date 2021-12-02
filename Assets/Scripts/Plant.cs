@@ -14,5 +14,9 @@ public class Plant : MonoBehaviour
     public AnimationCurve slope;
     public AnimationCurve moisture;
     public AnimationCurve interaction;
-    
+
+    public AnimationCurve[] GetCurves()
+    {
+        return new AnimationCurve[] {height, slope, moisture, interaction};
+    }
 }

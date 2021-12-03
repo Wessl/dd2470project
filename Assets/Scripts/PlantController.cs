@@ -40,6 +40,8 @@ public class PlantController : MonoBehaviour
     [SerializeField] private float[] L3CorrespondingPredominanceValue;
     [SerializeField] private float L3Radius;
     
+    // some private global vars
+    private Vector2 terrainSize;
 
 
     public void PlacePlants()
@@ -49,8 +51,8 @@ public class PlantController : MonoBehaviour
         // Step 0,5. Get color per pixel values for each texture map
         PopulateColorArrays();
         // Step 1. Generate PDD for whole terrain
-        Vector2 terrainSize = mapCreator.Dimensions;
-        Debug.Log("terrainseize" + terrainSize.x  + " ,"  + terrainSize.y);
+        terrainSize = new Vector2(mapCreator.TerrainData.heightmapResolution, mapCreator.TerrainData.heightmapResolution);
+        Debug.Log("terrainsize? " + terrainSize.ToString());
         List<Vector2> points = PoissonDiscSampling.GeneratePoints(L1Radius, terrainSize, pddSamples);
         Debug.Log("we got how many points " + points.Count);
         // Step 2. evaluate position to determine which plant to place in each position on the terrain
@@ -67,8 +69,9 @@ public class PlantController : MonoBehaviour
     private void EvaluatePosition(int x, int y, int layerIndex)
     {
         // Save some variables
-        int maxHeight = mapCreator.Dimensions.y;
+        int maxHeight = (int)terrainSize.y-2;
         float p = 1;
+        //Debug.Log("x,y" + x + "," + y);
         p = p * waterMapColors[y * maxHeight + x].r;
         Plant plant = GetPlant();
         // Curve ordering: height, slope, moisture, interaction
@@ -85,7 +88,7 @@ public class PlantController : MonoBehaviour
         if (p >= threshold)
         {
             // god damn it was actually placed. I think here we just physically plop down a tree at this pos
-            Debug.Log("Placed down a " + plant.transform.name + " at " + x + "," + y);
+            Debug.Log("Placed down a " + plant.transform.name);// + " at " + x + "," + y);
         }
     }
 

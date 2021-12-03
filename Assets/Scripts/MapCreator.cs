@@ -52,12 +52,12 @@ public class MapCreator : MonoBehaviour
     // terrain map dimensions
     private int maxWidth;
     private int maxHeight;
-    public Vector2Int Dimensions  => new Vector2Int(maxWidth, maxHeight);
 
     // the terrain itself (tremendously important)
     [SerializeField] private Terrain terrain;
     private TerrainData terrainData;
-    
+    public TerrainData TerrainData => terrainData;
+
 
     public void Generate()
     {

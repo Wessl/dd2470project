@@ -66,11 +66,14 @@ public class MapCreator : MonoBehaviour
             EditorUtility.DisplayDialog("No Terrain available!", "Please put your terrain into the MapCreator script", "Ok");
             return;
         }
+        
+        // Start by saving some global variables
         terrainData = terrain.terrainData;
         maxHeight = terrainData.heightmapResolution;
         maxWidth = terrainData.heightmapResolution;
         rawHeights = terrainData.GetHeights(0, 0, terrainData.heightmapResolution, terrainData.heightmapResolution);
         float startTime = Time.realtimeSinceStartup;
+        
         // Start by reading in water and water spread map since those are created separately/manually for now
         ReadWaterMaps();
         CreateMeanHeightMap();
@@ -84,9 +87,8 @@ public class MapCreator : MonoBehaviour
     {
         Texture2D moistureMap = new Texture2D(terrainData.heightmapResolution, terrainData.heightmapResolution,
             TextureFormat.ARGB32, false);
-        int maxHeight = moistureMap.height;
-        int maxWidth = moistureMap.width;
         rawMoisture = new float[maxWidth, maxHeight];
+        
         // Use all other generated maps and influence curves to create moisture map
         for (int y = 0; y < maxHeight; y++)
         {
@@ -251,7 +253,7 @@ public class MapCreator : MonoBehaviour
             EditorUtility.DisplayDialog("Heightmap Duplicated", "Saved as" + extension + " in " + path, "Pog");
         }else
         {
-            EditorUtility.DisplayDialog("Failed to duplicate height map", "聖夜のスペシャルシューティングスター", "やばい");
+            EditorUtility.DisplayDialog("Failed to duplicate height map", "時の回廊 - クロノトリガー", "やばい");
         }
         AssetDatabase.Refresh();
     }

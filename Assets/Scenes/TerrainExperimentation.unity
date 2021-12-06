@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0.99999905, b: 0.99999905, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -166,8 +166,8 @@ MonoBehaviour:
   - {fileID: 3977693881597732924, guid: 797ea333d18f81947a89a81e625a10a7, type: 3}
   - {fileID: 5696477920863641230, guid: a95f5f9cf2f18e04384ea5b99bbda9d6, type: 3}
   L1CorrespondingPredominanceValue:
-  - 0.1
-  - 0.9
+  - 0.3
+  - 0.7
   - 1
   L1Radius: 5
   L2Plants: []

@@ -7,7 +7,10 @@ using Random = UnityEngine.Random;
 public class PlantController : MonoBehaviour
 {
     [SerializeField] private MapCreator mapCreator;
+    [Tooltip("How many samples should the Poisson Disc Distribution use per node before giving up and going to the next one? Good default is ~30 ish, higher values affect runtime quite a bit.")]
     [SerializeField] private int pddSamples;
+    [Tooltip("The threshold that which determines if a given plant should be placed after running placement algorithm. Globally affects all plants equally. 1 = Strictest possible, place almost nothing. 0 = Very lenient, place almost anything.")]
+    [Range(0f,1.1f)]
     [SerializeField] private float threshold;
 
     [Header("Map input information")] 
@@ -44,32 +47,22 @@ public class PlantController : MonoBehaviour
     
     // some private global vars
     private Vector2 terrainSize;
-    private int pZero = 0;
-    private int pTotal = 0;
-
 
     public void PlacePlants()
     {
-        pZero = 0;
-        pTotal = 0;
         Debug.Log("beginning plant placement procedure");
-        // I'm thinking that I'll have one big poisson disc for the whole terrain with different layers?
         // Step 0. Clear away any old placed plants
         RemoveOldPlants();
         // Step 0,5. Get color per pixel values for each texture map
         PopulateColorArrays();
         // Step 1. Generate PDD for whole terrain
         terrainSize = new Vector2(mapCreator.TerrainData.heightmapResolution-1, mapCreator.TerrainData.heightmapResolution-1);
-        Debug.Log("terrainsize? " + terrainSize.ToString());
         List<Vector2> points = PoissonDiscSampling.GeneratePoints(L1Radius, terrainSize, pddSamples);
-        Debug.Log("we got how many points " + points.Count);
-        // Step 2. evaluate position to determine which plant to place in each position on the terrain
+        // Step 2. evaluate positions to determine which plant to place in each position on the terrain
         foreach (var point in points)
         {
-            // Pixel starts at top left corner, so if we floor to int we end up at correct pixel position definition
             EvaluatePosition(point.x, point.y, 1);
         }
-        Debug.Log("p percent 0 " + pZero / (float)(pTotal));
     }
 
     private void RemoveOldPlants()
@@ -90,19 +83,14 @@ public class PlantController : MonoBehaviour
      */
     private void EvaluatePosition(float xRaw, float yRaw, int layerIndex)
     {
-        // Save some variables
+        // Pixel starts at top left corner, so if we floor to int we end up at correct pixel position definition
         int x = Mathf.FloorToInt(xRaw);
         int y = Mathf.FloorToInt(yRaw);
         int maxHeight = (int)terrainSize.y-1;
+        
         float p = 1;
-        try
-        {
-            p = p * (1-waterMapColors[y * maxHeight + x].a);
-        }
-        catch (IndexOutOfRangeException e)
-        {
-            Debug.Log("index " + x + "," + y);
-        }
+        p = p * (1-waterMapColors[y * maxHeight + x].a);
+
         Plant plant = GetPlant();
         // Curve ordering: height, slope, moisture, interaction
         AnimationCurve[] curves = plant.GetCurves();
@@ -115,12 +103,9 @@ public class PlantController : MonoBehaviour
         p = p * curves[0].Evaluate(heightMapColors[y * maxHeight + x].r);
         p = p * curves[1].Evaluate(slopeMapColors[y * maxHeight + x].r);
         p = p * curves[2].Evaluate(moistureMapColors[y * maxHeight + x].r);
-
-
+        
         if (p >= threshold)
         {
-            // god damn it was actually placed. I think here we just physically plop down a tree at this pos
-            Debug.Log("Placed down a " + plant.transform.name);// + " at " + x + "," + y);
             PlaceTreeOnTerrain(xRaw,yRaw,plant);
         }
     }
@@ -129,12 +114,15 @@ public class PlantController : MonoBehaviour
     {
         
         Vector3 terrainSize = mapCreator.TerrainData.size;
+        // placement variables
         float diffX = x / mapCreator.TerrainData.heightmapResolution;
         float diffY = y / mapCreator.TerrainData.heightmapResolution;
         float newX = diffX * terrainSize.x;
         float newY = diffY * terrainSize.x;
         float height = mapCreator.TerrainData.GetInterpolatedHeight(diffX, diffY);
-        var newPlant = Instantiate(plant.plantObject, new Vector3(newX,height, newY), Quaternion.identity);
+        // randomly rotate around y axis so that not every tree has exact same rot
+        Quaternion rot = Quaternion.Euler(0, Random.Range(0f, 360f), 0);
+        var newPlant = Instantiate(plant.plantObject, new Vector3(newX,height, newY), rot);
         newPlant.transform.parent = this.transform;
 
     }

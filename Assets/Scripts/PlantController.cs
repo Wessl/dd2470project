@@ -44,10 +44,14 @@ public class PlantController : MonoBehaviour
     
     // some private global vars
     private Vector2 terrainSize;
+    private int pZero = 0;
+    private int pTotal = 0;
 
 
     public void PlacePlants()
     {
+        pZero = 0;
+        pTotal = 0;
         Debug.Log("beginning plant placement procedure");
         // I'm thinking that I'll have one big poisson disc for the whole terrain with different layers?
         // Step 0. Clear away any old placed plants
@@ -65,6 +69,7 @@ public class PlantController : MonoBehaviour
             // Pixel starts at top left corner, so if we floor to int we end up at correct pixel position definition
             EvaluatePosition(point.x, point.y, 1);
         }
+        Debug.Log("p percent 0 " + pZero / (float)(pTotal));
     }
 
     private void RemoveOldPlants()
@@ -88,11 +93,11 @@ public class PlantController : MonoBehaviour
         // Save some variables
         int x = Mathf.FloorToInt(xRaw);
         int y = Mathf.FloorToInt(yRaw);
-        int maxHeight = (int)terrainSize.y-2;
+        int maxHeight = (int)terrainSize.y-1;
         float p = 1;
         try
         {
-            p = p * waterMapColors[y * maxHeight + x].r;
+            p = p * (1-waterMapColors[y * maxHeight + x].a);
         }
         catch (IndexOutOfRangeException e)
         {
@@ -110,6 +115,8 @@ public class PlantController : MonoBehaviour
         p = p * curves[0].Evaluate(heightMapColors[y * maxHeight + x].r);
         p = p * curves[1].Evaluate(slopeMapColors[y * maxHeight + x].r);
         p = p * curves[2].Evaluate(moistureMapColors[y * maxHeight + x].r);
+
+
         if (p >= threshold)
         {
             // god damn it was actually placed. I think here we just physically plop down a tree at this pos
@@ -122,11 +129,10 @@ public class PlantController : MonoBehaviour
     {
         
         Vector3 terrainSize = mapCreator.TerrainData.size;
-        Debug.Log(terrainSize);
         float diffX = x / mapCreator.TerrainData.heightmapResolution;
         float diffY = y / mapCreator.TerrainData.heightmapResolution;
-        float newX = x * terrainSize.x / mapCreator.TerrainData.heightmapResolution;
-        float newY = y * terrainSize.x / mapCreator.TerrainData.heightmapResolution;
+        float newX = diffX * terrainSize.x;
+        float newY = diffY * terrainSize.x;
         float height = mapCreator.TerrainData.GetInterpolatedHeight(diffX, diffY);
         var newPlant = Instantiate(plant.plantObject, new Vector3(newX,height, newY), Quaternion.identity);
         newPlant.transform.parent = this.transform;

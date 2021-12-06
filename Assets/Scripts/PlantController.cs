@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class PlantController : MonoBehaviour
 {
@@ -48,10 +50,12 @@ public class PlantController : MonoBehaviour
     {
         Debug.Log("beginning plant placement procedure");
         // I'm thinking that I'll have one big poisson disc for the whole terrain with different layers?
+        // Step 0. Clear away any old placed plants
+        RemoveOldPlants();
         // Step 0,5. Get color per pixel values for each texture map
         PopulateColorArrays();
         // Step 1. Generate PDD for whole terrain
-        terrainSize = new Vector2(mapCreator.TerrainData.heightmapResolution, mapCreator.TerrainData.heightmapResolution);
+        terrainSize = new Vector2(mapCreator.TerrainData.heightmapResolution-1, mapCreator.TerrainData.heightmapResolution-1);
         Debug.Log("terrainsize? " + terrainSize.ToString());
         List<Vector2> points = PoissonDiscSampling.GeneratePoints(L1Radius, terrainSize, pddSamples);
         Debug.Log("we got how many points " + points.Count);
@@ -60,6 +64,19 @@ public class PlantController : MonoBehaviour
         {
             // Pixel starts at top left corner, so if we floor to int we end up at correct pixel position definition
             EvaluatePosition(point.x, point.y, 1);
+        }
+    }
+
+    private void RemoveOldPlants()
+    {
+        var oldPlants = this.GetComponentsInChildren<Transform>();
+        for (int i = 0; i < oldPlants.Length; i++)
+        {
+            if (oldPlants[i] == null) continue;
+            if (oldPlants[i].CompareTag("Plant"))
+            {
+                DestroyImmediate(oldPlants[i].gameObject);
+            }
         }
     }
 
@@ -73,7 +90,14 @@ public class PlantController : MonoBehaviour
         int y = Mathf.FloorToInt(yRaw);
         int maxHeight = (int)terrainSize.y-2;
         float p = 1;
-        p = p * waterMapColors[y * maxHeight + x].r;
+        try
+        {
+            p = p * waterMapColors[y * maxHeight + x].r;
+        }
+        catch (IndexOutOfRangeException e)
+        {
+            Debug.Log("index " + x + "," + y);
+        }
         Plant plant = GetPlant();
         // Curve ordering: height, slope, moisture, interaction
         AnimationCurve[] curves = plant.GetCurves();
@@ -96,8 +120,17 @@ public class PlantController : MonoBehaviour
 
     private void PlaceTreeOnTerrain(float x, float y, Plant plant)
     {
-        float height = mapCreator.TerrainData.GetHeight((int)x, (int)y);
-        Instantiate(plant.plantObject, new Vector3(x,height,y), Quaternion.identity);
+        
+        Vector3 terrainSize = mapCreator.TerrainData.size;
+        Debug.Log(terrainSize);
+        float diffX = x / mapCreator.TerrainData.heightmapResolution;
+        float diffY = y / mapCreator.TerrainData.heightmapResolution;
+        float newX = x * terrainSize.x / mapCreator.TerrainData.heightmapResolution;
+        float newY = y * terrainSize.x / mapCreator.TerrainData.heightmapResolution;
+        float height = mapCreator.TerrainData.GetInterpolatedHeight(diffX, diffY);
+        var newPlant = Instantiate(plant.plantObject, new Vector3(newX,height, newY), Quaternion.identity);
+        newPlant.transform.parent = this.transform;
+
     }
 
     private void PopulateColorArrays()

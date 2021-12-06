@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8992950790262190596}
   m_Layer: 0
   m_Name: BroadLeaf
-  m_TagString: Untagged
+  m_TagString: Plant
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -43,7 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 322c633af3ffe7545a94973ce27f85fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  plantObject: {fileID: 100000, guid: b6972eaa35c2e574e8ab5083a59d8459, type: 3}
+  plantObject: {fileID: 7498054958371393588, guid: 479c5aa71f0293a4a876ae6f50e7eb39, type: 3}
   zoneOfInfluence: 5
   height:
     serializedVersion: 2

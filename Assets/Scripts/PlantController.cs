@@ -59,19 +59,20 @@ public class PlantController : MonoBehaviour
         foreach (var point in points)
         {
             // Pixel starts at top left corner, so if we floor to int we end up at correct pixel position definition
-            EvaluatePosition(Mathf.FloorToInt(point.x), Mathf.FloorToInt(point.y), 1);
+            EvaluatePosition(point.x, point.y, 1);
         }
     }
 
     /*
      * As described in paper 1, for details refer to it please. 
      */
-    private void EvaluatePosition(int x, int y, int layerIndex)
+    private void EvaluatePosition(float xRaw, float yRaw, int layerIndex)
     {
         // Save some variables
+        int x = Mathf.FloorToInt(xRaw);
+        int y = Mathf.FloorToInt(yRaw);
         int maxHeight = (int)terrainSize.y-2;
         float p = 1;
-        //Debug.Log("x,y" + x + "," + y);
         p = p * waterMapColors[y * maxHeight + x].r;
         Plant plant = GetPlant();
         // Curve ordering: height, slope, moisture, interaction
@@ -89,7 +90,14 @@ public class PlantController : MonoBehaviour
         {
             // god damn it was actually placed. I think here we just physically plop down a tree at this pos
             Debug.Log("Placed down a " + plant.transform.name);// + " at " + x + "," + y);
+            PlaceTreeOnTerrain(xRaw,yRaw,plant);
         }
+    }
+
+    private void PlaceTreeOnTerrain(float x, float y, Plant plant)
+    {
+        float height = mapCreator.TerrainData.GetHeight((int)x, (int)y);
+        Instantiate(plant.plantObject, new Vector3(x,height,y), Quaternion.identity);
     }
 
     private void PopulateColorArrays()

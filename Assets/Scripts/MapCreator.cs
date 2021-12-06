@@ -55,7 +55,7 @@ public class MapCreator : MonoBehaviour
 
     // the terrain itself (tremendously important)
     [SerializeField] private Terrain terrain;
-    private TerrainData terrainData;
+    [SerializeField] private TerrainData terrainData;
     public TerrainData TerrainData => terrainData;
 
 

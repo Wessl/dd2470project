@@ -26,20 +26,23 @@ public class PlantController : MonoBehaviour
     private Color[] waterMapColors;
     [SerializeField] private Texture2D waterSpreadMap;
     private Color[] waterSpreadMapColors;
-    
-    [Header("Layer 1 (Large)")] 
+
+    [Header("~~~Layer 1 (Large)~~~")]
+    [SerializeField] private bool placeL1Plants;
     [SerializeField] private Plant[] L1Plants;
     [Tooltip("The index of this should correspond to the plant in the same list. Should be increasing, where the difference between preceeding divided by 1 is the percent chance. Ex: 0.4, 0.75, 1")]
     [SerializeField] private float[] L1CorrespondingPredominanceValue;
     [SerializeField] private float L1Radius;
     
-    [Header("Layer 2 (Medium)")] 
+    [Header("~~~Layer 2 (Medium)~~~")]
+    [SerializeField] private bool placeL2Plants;
     [SerializeField] private Plant[] L2Plants;
     [Tooltip("The index of this should correspond to the plant in the same list. Should be increasing, where the difference between preceeding divided by 1 is the percent chance. Ex: 0.4, 0.75, 1")]
     [SerializeField] private float[] L2CorrespondingPredominanceValue;
     [SerializeField] private float L2Radius;
 
-    [Header("Layer 3 (Small)")] 
+    [Header("~~~Layer 3 (Small)~~~")] 
+    [SerializeField] private bool placeL3Plants;
     [SerializeField] private Plant[] L3Plants;
     [Tooltip("The index of this should correspond to the plant in the same list. Should be increasing, where the difference between preceeding divided by 1 is the percent chance. Ex: 0.4, 0.75, 1")]
     [SerializeField] private float[] L3CorrespondingPredominanceValue;
@@ -47,22 +50,37 @@ public class PlantController : MonoBehaviour
     
     // some private global vars
     private Vector2 terrainSize;
+    private List<Plant[]> layers;
+    private float[] radii;
+    private List<float[]> layerPredominanceVals;
+    private List<bool> placementBools;
 
     public void PlacePlants()
     {
+        layers = new List<Plant[]>(){L1Plants, L2Plants, L3Plants};
+        radii = new float[] {L1Radius, L2Radius, L3Radius};
+        layerPredominanceVals = new List<float[]>() {L1CorrespondingPredominanceValue, L3CorrespondingPredominanceValue};
+        placementBools = new List<bool>() {placeL1Plants, placeL2Plants, placeL3Plants};
         Debug.Log("beginning plant placement procedure");
         // Step 0. Clear away any old placed plants
         RemoveOldPlants();
         // Step 0,5. Get color per pixel values for each texture map
         PopulateColorArrays();
-        // Step 1. Generate PDD for whole terrain
-        terrainSize = new Vector2(mapCreator.TerrainData.heightmapResolution-1, mapCreator.TerrainData.heightmapResolution-1);
-        List<Vector2> points = PoissonDiscSampling.GeneratePoints(L1Radius, terrainSize, pddSamples);
-        // Step 2. evaluate positions to determine which plant to place in each position on the terrain
-        foreach (var point in points)
+        // Step 1. Generate PDD for whole terrain (for each layer of plants)
+        for (int i = 0; i < layers.Count; i++)
         {
-            EvaluatePosition(point.x, point.y, 1);
+            if (placementBools[i] == true)
+            {
+                terrainSize = new Vector2(mapCreator.TerrainData.heightmapResolution-1, mapCreator.TerrainData.heightmapResolution-1);
+                List<Vector2> points = PoissonDiscSampling.GeneratePoints(radii[i], terrainSize, pddSamples);
+                // Step 2. evaluate positions to determine which plant to place in each position on the terrain
+                foreach (var point in points)
+                {
+                    EvaluatePosition(point.x, point.y, i);
+                }
+            }
         }
+        
     }
 
     private void RemoveOldPlants()
@@ -90,10 +108,10 @@ public class PlantController : MonoBehaviour
         float p = 1;
         p = p * (1-waterMapColors[x * maxWidth + y].a);
 
-        Plant plant = GetPlant();
+        Plant plant = GetPlant(layerIndex);
         // Curve ordering: height, slope, moisture, interaction
         AnimationCurve[] curves = plant.GetCurves();
-        if (layerIndex > 1)
+        if (layerIndex > 0) // og alg is > 1, i changed layerindex to be 0 indexed
         {
             // density map calculation here
             // another density map calculation here
@@ -129,7 +147,6 @@ public class PlantController : MonoBehaviour
     private void PopulateColorArrays()
     {
         heightMapColors = heightMap.GetPixels();
-        Debug.Log("by the way, height map colors are " + heightMapColors.Length);
         //densityMapColors = densityMap.GetPixels();
         moistureMapColors = moistureMap.GetPixels();
         slopeMapColors = slopeMap.GetPixels();
@@ -137,18 +154,21 @@ public class PlantController : MonoBehaviour
         waterSpreadMapColors = waterSpreadMap.GetPixels();
     }
 
-    private Plant GetPlant()
+    private Plant GetPlant(int layerIndex)
     {
         // Stochastically sample plant, depending on predominance value
         float val = Random.Range(0f, 1f);
-        for (int i = 0; i < L1CorrespondingPredominanceValue.Length; i++)
+
+        for (int i = 0; i < layerPredominanceVals[layerIndex].Length; i++)
         {
-            if (val < L1CorrespondingPredominanceValue[i])
+            if (val < layerPredominanceVals[layerIndex][i])
             {
-                return L1Plants[i];
+                // Damn, we got a plant. 
+                return layers[layerIndex][i];
             }
         }
-        Debug.Log("Error: No plant was correctly sampled. Returning first in array.");
+
+        Debug.Log("Error: No plant was correctly sampled. Returning default tree from array.");
         return L1Plants[0];
     }
 }

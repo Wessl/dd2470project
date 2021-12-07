@@ -43,7 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 322c633af3ffe7545a94973ce27f85fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  plantObject: {fileID: 7949759183281867714, guid: 6e5bd82e4b89e124c88d51430decb0e0, type: 3}
+  plantObjectWithMesh: {fileID: 7949759183281867714, guid: 6e5bd82e4b89e124c88d51430decb0e0, type: 3}
   zoneOfInfluence: 5
   height:
     serializedVersion: 2

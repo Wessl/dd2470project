@@ -5,10 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
   - enabled: 1
-    path: Assets/Scenes/TerrainExperimentation.unity
-    guid: b9da53beb0958b74c8354419189cec88
+    path: Assets/Scenes/LSystem.unity
+    guid: ed3cf834dff60eb4b99d6bd30d80ba07
+  - enabled: 1
+    path: Assets/Scenes/ProceduralVegetation.unity
+    guid: 1061b8feac37e094e8b482d2ae740a13
   m_configObjects: {}

@@ -10,7 +10,7 @@ public static class PoissonDiscSampling
         int[,] grid = new int[Mathf.CeilToInt(sampleRegionSize.x / cellSize), Mathf.CeilToInt(sampleRegionSize.y / cellSize)];
         List<Vector2> points = new List<Vector2>();
         List<Vector2> spawnPoints = new List<Vector2>();
-        
+
         spawnPoints.Add(sampleRegionSize/2);
         while (spawnPoints.Count > 0)
         {
@@ -20,11 +20,10 @@ public static class PoissonDiscSampling
             for (int i = 0; i < numSamplesBeforeRejection; i++)
             {
                 float angle = Random.value * Mathf.PI * 2;
-                Vector2 dir = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
-                Vector2 candidate = spawnCentre + dir * Random.Range(radius, 2 * radius);
+                Vector2 dir = new Vector2(Mathf.Sin(angle), Mathf.Cos(angle));
+                Vector2 candidate = spawnCentre + dir *  radius * Mathf.Sqrt(Random.Range(1, 4));
                 if (IsValid(candidate, sampleRegionSize, cellSize, radius, points, grid))
                 {
-                    
                     points.Add(candidate);
                     spawnPoints.Add(candidate);
                     grid[(int)(candidate.x / cellSize), (int) (candidate.y / cellSize)] = points.Count;
@@ -32,7 +31,6 @@ public static class PoissonDiscSampling
                     break;
                 }
             }
-
             if (!candidateAccepted)
             {
                 spawnPoints.RemoveAt(spawnIndex);
@@ -54,7 +52,7 @@ public static class PoissonDiscSampling
             int searchStartY = Mathf.Max(0, cellY - 2);
             int searchEndY = Mathf.Min(cellY + 2, grid.GetLength(1) - 1);
 
-            for (int y = searchStartY; y < searchEndY; y++)
+            for (int y = searchStartY; y <= searchEndY; y++)
             {
                 for (int x = searchStartX; x <= searchEndX; x++)
                 {
@@ -69,7 +67,6 @@ public static class PoissonDiscSampling
                     }
                 }
             }
-
             return true;
         }
         return false;

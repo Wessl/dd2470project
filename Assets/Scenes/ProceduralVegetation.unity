@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.2257134, b: 0.30692226, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -169,7 +169,74 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &99661005
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 99661007}
+  - component: {fileID: 99661006}
+  m_Layer: 0
+  m_Name: PlantController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &99661006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 99661005}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac9526179fef6864084f8d7e089d86c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mapCreator: {fileID: 1353655137}
+  pddSamples: 20
+  threshold: 1
+  heightMap: {fileID: 2800000, guid: fee93fdb2b02bba41b95784ef0e8a27b, type: 3}
+  moistureMap: {fileID: 2800000, guid: de82417520a34ec4ca8714edc5d1fdbd, type: 3}
+  densityMap: {fileID: 0}
+  slopeMap: {fileID: 2800000, guid: 060c08725d7a18f4982d5110de28ec98, type: 3}
+  waterMap: {fileID: 2800000, guid: 7004a26589f1c4444b9e177ea7d320b7, type: 3}
+  waterSpreadMap: {fileID: 2800000, guid: a5a980abded25034284c5982df75a024, type: 3}
+  L1Plants:
+  - {fileID: 8992950790262190596, guid: 2739ed93ed079624490826c0b727d922, type: 3}
+  - {fileID: 3977693881597732924, guid: 797ea333d18f81947a89a81e625a10a7, type: 3}
+  - {fileID: 5696477920863641230, guid: a95f5f9cf2f18e04384ea5b99bbda9d6, type: 3}
+  L1CorrespondingPredominanceValue:
+  - 0.4
+  - 0.8
+  - 1
+  L1Radius: 5
+  L2Plants: []
+  L2CorrespondingPredominanceValue: []
+  L2Radius: 0
+  L3Plants: []
+  L3CorrespondingPredominanceValue: []
+  L3Radius: 0
+--- !u!4 &99661007
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 99661005}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &457801312
 GameObject:
@@ -439,9 +506,9 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   colorGradientTexture: {fileID: 0}
   shallowColor: {r: 0, g: 0.7725491, b: 0.62352943, a: 0.5019608}
-  deepColor: {r: 0, g: 0.259971, b: 0.6509434, a: 1}
+  deepColor: {r: 0, g: 0.25997093, b: 0.6509434, a: 1}
   colorDepth: 1.39
-  horizonColor: {r: 0, g: 0.22733867, b: 0.8, a: 1}
+  horizonColor: {r: 0, g: 0.22733861, b: 0.8, a: 1}
   horizonDistance: 14.45
   shoreFade: 1
   shoreColor: {r: 1, g: 1, b: 1, a: 1}
@@ -449,7 +516,7 @@ MonoBehaviour:
   shoreBlend: 1
   shoreDepth: 0.72
   waveColor: {r: 0, g: 0, b: 0, a: 0}
-  underwaterColor: {r: 0.2038151, g: 0.30969155, b: 0.517647, a: 0.552}
+  underwaterColor: {r: 0.20381504, g: 0.3096915, b: 0.517647, a: 0.552}
   underwaterColorStrength: 0.552
   underwaterRefractionStrength: 0.099
   surfaceFoamTexture: {fileID: 2800000, guid: d3b0d77dfe711a04c8ff18ecc260aa66, type: 3}
@@ -534,7 +601,7 @@ GameObject:
   - component: {fileID: 1353655138}
   - component: {fileID: 1353655137}
   m_Layer: 0
-  m_Name: 2dMapCreator
+  m_Name: MapCreator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -552,9 +619,125 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6376ce650fad4242823f4b7d38582ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  circleSamplerRadius: 10
+  slopeMapDistSampling: 6
+  waterMap: {fileID: 2800000, guid: 7004a26589f1c4444b9e177ea7d320b7, type: 3}
+  waterSpreadMap: {fileID: 2800000, guid: a5a980abded25034284c5982df75a024, type: 3}
+  saveMeanHeightMap: 1
+  saveRelativeHeightMap: 1
+  saveSlopeMap: 1
+  saveMoistureMap: 1
+  heightMapWeight: 0.3
+  slopeMapWeight: 0.3
+  relativeHeightMapWeight: 0.5
+  omega: 0.6
+  heightMapCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -1
+      outSlope: -1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -1
+      outSlope: -1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  slopeMapCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -2.2116175
+      outSlope: -2.2116175
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.35731176
+      value: 0.20976305
+      inSlope: -1.2690006
+      outSlope: -1.2690006
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -0.3263838
+      outSlope: -0.3263838
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  relativeHeightMapCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -1
+      outSlope: -1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -1
+      outSlope: -1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  verticalWaterSpreadCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -1
+      outSlope: -1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -1
+      outSlope: -1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   terrain: {fileID: 1873763638}
-  circleSamplerRadius: 0
-  perPixelSamplePoints: 0
+  terrainData: {fileID: 15600000, guid: e6f1d35529c719f4183ad4b0c9dc6758, type: 2}
 --- !u!4 &1353655138
 Transform:
   m_ObjectHideFlags: 0
@@ -567,50 +750,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1827825140
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1827825142}
-  - component: {fileID: 1827825141}
-  m_Layer: 0
-  m_Name: VegetationDistribution
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1827825141
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1827825140}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 93eee64b956905e4c81ed6c7f99d9178, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &1827825142
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1827825140}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1873763636
 GameObject:
@@ -795,6 +935,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 1
   m_Antialiasing: 1
   m_AntialiasingQuality: 2

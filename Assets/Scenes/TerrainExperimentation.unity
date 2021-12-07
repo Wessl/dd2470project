@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0.99999905, b: 0.99999905, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -154,7 +154,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mapCreator: {fileID: 110864308}
   pddSamples: 20
-  threshold: 0.5
+  threshold: 0.9
   heightMap: {fileID: 2800000, guid: fee93fdb2b02bba41b95784ef0e8a27b, type: 3}
   moistureMap: {fileID: 2800000, guid: de82417520a34ec4ca8714edc5d1fdbd, type: 3}
   densityMap: {fileID: 0}
@@ -169,7 +169,7 @@ MonoBehaviour:
   - 0.3
   - 0.7
   - 1
-  L1Radius: 5
+  L1Radius: 4
   L2Plants: []
   L2CorrespondingPredominanceValue: []
   L2Radius: 0

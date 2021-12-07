@@ -122,7 +122,7 @@ public class PlantController : MonoBehaviour
         float height = mapCreator.TerrainData.GetInterpolatedHeight(diffX, diffY);
         // randomly rotate around y axis so that not every tree has exact same rot
         Quaternion rot = Quaternion.Euler(0, Random.Range(0f, 360f), 0);
-        var newPlant = Instantiate(plant.plantObject, new Vector3(newX,height, newY), rot);
+        var newPlant = Instantiate(plant.plantObjectWithMesh, new Vector3(newX,height, newY), rot);
         newPlant.transform.parent = this.transform;
 
     }

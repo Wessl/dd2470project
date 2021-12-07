@@ -5,12 +5,12 @@ MonoImporter:
   serializedVersion: 2
   defaultReferences:
   - mapCreator: {instanceID: 0}
-  - heightMap: {fileID: 2800000, guid: fee93fdb2b02bba41b95784ef0e8a27b, type: 3}
-  - moistureMap: {fileID: 2800000, guid: de82417520a34ec4ca8714edc5d1fdbd, type: 3}
+  - heightMap: {instanceID: 0}
+  - moistureMap: {instanceID: 0}
   - densityMap: {instanceID: 0}
-  - slopeMap: {fileID: 2800000, guid: 060c08725d7a18f4982d5110de28ec98, type: 3}
-  - waterMap: {fileID: 2800000, guid: 7004a26589f1c4444b9e177ea7d320b7, type: 3}
-  - waterSpreadMap: {fileID: 2800000, guid: a5a980abded25034284c5982df75a024, type: 3}
+  - slopeMap: {instanceID: 0}
+  - waterMap: {instanceID: 0}
+  - waterSpreadMap: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

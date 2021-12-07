@@ -6,7 +6,7 @@ public class Plant : MonoBehaviour
 {
     [Header("General info parameters")]
     [Tooltip("Should include a mesh somewhere")]
-    public GameObject plantObject;
+    public GameObject plantObjectWithMesh;
     [Tooltip("Radius")] 
     public float zoneOfInfluence;
     [Header("Adaptability parameters")] 

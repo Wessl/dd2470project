@@ -165,7 +165,7 @@ public class MapCreator : MonoBehaviour
             {
                 // For each pixel... calculate inverse, then subtract inverse value from rawHeights
                 inverse[x, y] = minAndMaxNeighbourhood[x, y] - rawHeights[x, y];
-                var colorVal = rawHeights[x, y] - inverse[x,y] + avgHeight;
+                var colorVal = rawHeights[x, y] - inverse[x,y] + 0.5f; //avgHeight;
                 rawRelativeHeights[x, y] = colorVal;
                 var color = new Vector4(colorVal, colorVal, colorVal, 1);
                 relativeHeightMap.SetPixel(x,y, color);

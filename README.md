@@ -1,7 +1,7 @@
 # Procedural Vegetation Distribution
 This repository contains a Unity (v 2020.3.24) project for generating vegetation distribution across a [Unity Terrain](https://docs.unity3d.com/Manual/script-Terrain.html). It is based on placement strategy of this paper by Bruno Torres do Nascimento, Flavio Paulus Franzin, Cesar Tadeu Pozzer, [GPU-Based Real-Time Procedural Distribution of Vegetation on Large-Scale Virtual Terrains](https://www.sbgames.org/sbgames2018/files/papers/ComputacaoFull/188348.pdf), where I attempt to replicate the placement logic. None of the GPU speedups mentioned in the paper are part of this project, and there are minor changes to how for example maps are calculated in some cases. But for the most part, it should be the same map generation and placement strategy as the one used in the paper. 
 
-This project was made for the course DD2470 Advanced Topics in Visualization and Computer Graphics at KTH university.
+This project was made for the course DD2470 Advanced Topics in Visualization and Computer Graphics at KTH Royal Institute of Technology.
 
 Progress: 
 
@@ -40,8 +40,12 @@ Other things I use:
     <img src="/Assets/MiscImages/MapCreatorInspector.png" width="256" />
   </p>
   
-5. For every plant model you want to use, create a prefab with the Plant script on it, and populate the inspector parameter values. 
-6. Create another new object that will host the PlantController script. Populate inspector parameter values, see below for example. Click place plants to generate a distribution. 
+5. For every plant model you want to use, create a prefab with the Plant script on it, and populate the inspector parameter values. Note that the actual model object containing the mesh that will be placed is the "plant object with mesh", this *must* have a "Plant" tag on it, else it won't be removed when generating a new distribution of plants, and your project will get clogged. <p align="middle">
+    <img src="/Assets/MiscImages/ConiferPrefabInspector.png" width="256" />
+  </p>
+6. Create another new object that will host the PlantController script. Populate inspector parameter values, see below for example. Click place plants to generate a distribution. <p align="middle">
+    <img src="/Assets/MiscImages/PlantControllerInspector.png" width="256" />
+  </p>
 
 ## Showcase
 

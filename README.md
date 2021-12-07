@@ -1,11 +1,7 @@
-# dd2470project
-Probably going to include procedural plant generation and placement
+# Procedural Vegetation Distribution
+This repository contains a Unity (v 2020.3.24) project for generating vegetation distribution across a [Unity Terrain](https://docs.unity3d.com/Manual/script-Terrain.html). It is based on placement strategy of this paper by Bruno Torres do Nascimento, Flavio Paulus Franzin, Cesar Tadeu Pozzer, [GPU-Based Real-Time Procedural Distribution of Vegetation on Large-Scale Virtual Terrains](https://www.sbgames.org/sbgames2018/files/papers/ComputacaoFull/188348.pdf), where I attempt to replicate the placement logic. None of the GPU speedups mentioned in the paper are part of this project, and there are minor changes to how for example maps are calculated in some cases. But for the most part, it should be the same map generation and placement strategy as the one used in the paper. 
 
-Easy mode: L system for plants, poisson disc sampling for procedural placement
-
-Hard mode: "Synthetic Silviculture: Multi-scale Modeling of Plant Ecosystems" for both, OR the brazilian 2018 paper for placement combined with either L system generated plants or existing models
-
-So far I am trying to replicate the placement strategy of this paper: B. Torres do Nascimento, C. Pozzer, [GPU-Based Real-Time Procedural Distribution of Vegetation on Large-Scale Virtual Terrains](https://www.sbgames.org/sbgames2018/files/papers/ComputacaoFull/188348.pdf ), 17th Brazilian Symposium on Computer Games and Digital Entertainment, 2018
+This project was made for the course DD2470 Advanced Topics in Visualization and Computer Graphics at KTH university.
 
 Progress: 
 
@@ -17,23 +13,35 @@ Progress:
   - (waterMap- not really generated just inputte)
   - (waterSpreadMap - yes it is generated but not by me. It's done thanks to catlike coding's SDF plugin)
   - moistureMap
+* I can place down plants on the terrain based on the maps! 
+  - Poisson disc distribution of positions on the terrain are generated
+  - For each position, evaluate a if a plant should be placed using placement algorithm [I.] 
+  - Placement algorithm is based on influence curves for each plant, onto the maps generated from the terrain
 
 * Kind of related:
   - I can make L system 2d trees, wow very cool thanks Kanye
  
 * To Do:  
   - Demonstration:
-     - Include map visuals and the terrain that spawned it
+     - Include map visuals and the terrain that spawned it (what did I mean by this)
   - Everything else in the paper...
-    - A buttload of plants
-    - influence curves for each plant
-    - placement algorithm
-    - PDD tiles to use for the distribution
     - plant hierarchy/layering division
+    - MORE PLANTS (especially smaller ones for ground coverage)
     - and probably some more i am forgetting right now wow
   
 Other things I use: 
 * For calculating the relative height map, I use a formula from [Miller, Bradley. (2014). Semantic calibration of digital terrain analysis scale. Cartography and Geographic Information Science. 41. 166-176. 10.1080/15230406.2014.883488.](https://www.researchgate.net/publication/261550103_Semantic_calibration_of_digital_terrain_analysis_scale)
+
+## How to use
+1. Create or import a Unity Terrain into your project.
+2. Select Window -> Terrain to image to create a heightmap from the terrain. Save it somewhere in your Unity Assets folder. 
+3. Create a new object and put the script MapCreator.cs on it.
+4. Set it up, some suggested values that will work OK are shown below. Click "GENERATE MAPS", and save them somewhere in your Unity Assets folder. <p align="middle">
+    <img src="/Assets/MiscImages/MapCreatorInspector.png" width="256" />
+  </p>
+  
+5. For every plant model you want to use, create a prefab with the Plant script on it, and populate the inspector parameter values. 
+6. Create another new object that will host the PlantController script. Populate inspector parameter values, see below for example. Click place plants to generate a distribution. 
 
 ## Showcase
 
@@ -50,4 +58,15 @@ Other things I use:
   <img src="/Assets/TerrainImages/waterMap.png" width="256" />
   <img src="/Assets/TerrainImages/waterSpreadMap.png" width="256" /> 
   <img src="/Assets/TerrainImages/moistureMap.png" width="256" /> 
+</p>
+
+### Progress of plant placement:
+<p align="left">
+  <img src="/Assets/MiscImages/wrong1.png" width="512" />
+</p>
+<p align="left">
+  <img src="/Assets/MiscImages/wrong2.png" width="512" /> 
+</p>
+<p align="left">
+  <img src="/Assets/MiscImages/right1.png" width="512" /> 
 </p>

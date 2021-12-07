@@ -86,10 +86,9 @@ public class PlantController : MonoBehaviour
         // Pixel starts at top left corner, so if we floor to int we end up at correct pixel position definition
         int x = Mathf.FloorToInt(xRaw);
         int y = Mathf.FloorToInt(yRaw);
-        int maxHeight = (int)terrainSize.y-1;
-        
+        int maxWidth = (int)terrainSize.x;
         float p = 1;
-        p = p * (1-waterMapColors[y * maxHeight + x].a);
+        p = p * (1-waterMapColors[x * maxWidth + y].a);
 
         Plant plant = GetPlant();
         // Curve ordering: height, slope, moisture, interaction
@@ -100,9 +99,9 @@ public class PlantController : MonoBehaviour
             // another density map calculation here
         }
 
-        p = p * curves[0].Evaluate(heightMapColors[y * maxHeight + x].r);
-        p = p * curves[1].Evaluate(slopeMapColors[y * maxHeight + x].r);
-        p = p * curves[2].Evaluate(moistureMapColors[y * maxHeight + x].r);
+        p = p * curves[0].Evaluate(heightMapColors[x * maxWidth + y].r);
+        p = p * curves[1].Evaluate(slopeMapColors[x * maxWidth + y].r);
+        p = p * curves[2].Evaluate(moistureMapColors[x * maxWidth + y].r);
         
         if (p >= threshold)
         {
@@ -130,6 +129,7 @@ public class PlantController : MonoBehaviour
     private void PopulateColorArrays()
     {
         heightMapColors = heightMap.GetPixels();
+        Debug.Log("by the way, height map colors are " + heightMapColors.Length);
         //densityMapColors = densityMap.GetPixels();
         moistureMapColors = moistureMap.GetPixels();
         slopeMapColors = slopeMap.GetPixels();

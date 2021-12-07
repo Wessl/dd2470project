@@ -41,10 +41,10 @@ Other things I use:
   </p>
   
 5. For every plant model you want to use, create a prefab with the Plant script on it, and populate the inspector parameter values. Note that the actual model object containing the mesh that will be placed is the "plant object with mesh", this *must* have a "Plant" tag on it, else it won't be removed when generating a new distribution of plants, and your project will get clogged. <p align="middle">
-    <img src="/Assets/MiscImages/ConiferPrefabInspector.png" width="256" />
+    <img src="/Assets/MiscImages/ConiferPrefabInspector.png" width="312" />
   </p>
 6. Create another new object that will host the PlantController script. Populate inspector parameter values, see below for example. Click place plants to generate a distribution. <p align="middle">
-    <img src="/Assets/MiscImages/PlantControllerInspector.png" width="256" />
+    <img src="/Assets/MiscImages/PlantControllerInspector.png" width="352" />
   </p>
 
 ## Showcase

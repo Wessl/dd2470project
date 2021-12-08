@@ -168,7 +168,19 @@ public class PlantController : MonoBehaviour
             }
         }
 
-        Debug.Log("Error: No plant was correctly sampled. Returning default tree from array.");
-        return L1Plants[0];
+        Debug.Log("Error: No plant was correctly sampled. Attempting to return default from array, if one exists..");
+        if (layers[layerIndex][0] != null)
+        {
+            return layers[layerIndex][0];
+        }
+        else if (L1Plants[0] != null)
+        {
+            return L1Plants[0];
+        }
+        else
+        {
+            return null;
+        }
+        
     }
 }

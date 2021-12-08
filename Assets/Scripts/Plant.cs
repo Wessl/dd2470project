@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class Plant : MonoBehaviour
@@ -20,3 +21,4 @@ public class Plant : MonoBehaviour
         return new AnimationCurve[] {height, slope, moisture, interaction};
     }
 }
+

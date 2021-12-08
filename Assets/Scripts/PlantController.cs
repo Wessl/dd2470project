@@ -59,7 +59,7 @@ public class PlantController : MonoBehaviour
     {
         layers = new List<Plant[]>(){L1Plants, L2Plants, L3Plants};
         radii = new float[] {L1Radius, L2Radius, L3Radius};
-        layerPredominanceVals = new List<float[]>() {L1CorrespondingPredominanceValue, L3CorrespondingPredominanceValue};
+        layerPredominanceVals = new List<float[]>() {L1CorrespondingPredominanceValue, L2CorrespondingPredominanceValue, L3CorrespondingPredominanceValue};
         placementBools = new List<bool>() {placeL1Plants, placeL2Plants, placeL3Plants};
         Debug.Log("beginning plant placement procedure");
         // Step 0. Clear away any old placed plants
@@ -101,6 +101,11 @@ public class PlantController : MonoBehaviour
      */
     private void EvaluatePosition(float xRaw, float yRaw, int layerIndex)
     {
+        Plant plant = GetPlant(layerIndex);
+        if (plant is null)
+        {
+            return;
+        }
         // Pixel starts at top left corner, so if we floor to int we end up at correct pixel position definition
         int x = Mathf.FloorToInt(xRaw);
         int y = Mathf.FloorToInt(yRaw);
@@ -108,7 +113,7 @@ public class PlantController : MonoBehaviour
         float p = 1;
         p = p * (1-waterMapColors[x * maxWidth + y].a);
 
-        Plant plant = GetPlant(layerIndex);
+        
         // Curve ordering: height, slope, moisture, interaction
         AnimationCurve[] curves = plant.GetCurves();
         if (layerIndex > 0) // og alg is > 1, i changed layerindex to be 0 indexed
@@ -168,19 +173,8 @@ public class PlantController : MonoBehaviour
             }
         }
 
-        Debug.Log("Error: No plant was correctly sampled. Attempting to return default from array, if one exists..");
-        if (layers[layerIndex][0] != null)
-        {
-            return layers[layerIndex][0];
-        }
-        else if (L1Plants[0] != null)
-        {
-            return L1Plants[0];
-        }
-        else
-        {
-            return null;
-        }
-        
+        // If we get here, no plant was sampled. Return null (intended behaviour, sometimes you just want nothing to spawn)
+        return null;
+
     }
 }

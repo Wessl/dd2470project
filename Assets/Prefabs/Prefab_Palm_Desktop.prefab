@@ -92,7 +92,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7949759183282100194}
   - component: {fileID: 7949759183263564618}
-  - component: {fileID: 7949759183278680234}
   m_Layer: 0
   m_Name: Prefab_Palm_Desktop
   m_TagString: Plant
@@ -153,22 +152,6 @@ LODGroup:
     renderers:
     - renderer: {fileID: 7949759183261373066}
   m_Enabled: 1
---- !u!54 &7949759183278680234
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7949759183281867714}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!1 &7949759183281867716
 GameObject:
   m_ObjectHideFlags: 0
@@ -396,7 +379,7 @@ SphereCollider:
   m_GameObject: {fileID: 7949759183281867720}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.80162406
   m_Center: {x: 0, y: 0, z: 0}
@@ -440,7 +423,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 7949759183281867722}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.16312623
   m_Height: 2.4977841
   m_Direction: 0
@@ -485,7 +468,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 7949759183281867724}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.1313688
   m_Height: 1.3283277
   m_Direction: 0
@@ -530,7 +513,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 7949759183281867726}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.22433281
   m_Height: 1.351178
   m_Direction: 0

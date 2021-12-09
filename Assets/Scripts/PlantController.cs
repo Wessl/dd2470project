@@ -80,6 +80,8 @@ public class PlantController : MonoBehaviour
                 }
             }
         }
+        // Since none of the transforms of the plants will change, we can batch them together to increase performance
+        StaticBatchingUtility.Combine(this.gameObject);
         
     }
 
@@ -146,7 +148,7 @@ public class PlantController : MonoBehaviour
         Quaternion rot = Quaternion.Euler(0, Random.Range(0f, 360f), 0);
         var newPlant = Instantiate(plant.plantObjectWithMesh, new Vector3(newX,height, newY), rot);
         newPlant.transform.parent = this.transform;
-
+        newPlant.isStatic = true;
     }
 
     private void PopulateColorArrays()

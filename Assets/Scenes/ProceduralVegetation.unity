@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028334, g: 0.2257134, b: 0.30692226, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -220,7 +220,7 @@ MonoBehaviour:
   - 0.5
   - 0.75
   - 1
-  L1Radius: 5
+  L1Radius: 7
   placeL2Plants: 0
   L2Plants:
   - {fileID: 8992950790262190596, guid: 3247c002250a77849a07d64f2869b5d8, type: 3}
@@ -234,7 +234,7 @@ MonoBehaviour:
   - 0.6
   - 0.8
   - 1
-  L2Radius: 3
+  L2Radius: 5
   placeL3Plants: 0
   L3Plants:
   - {fileID: 8992950790262190596, guid: fdae8d2a314aee14d9e2a61d9c02280e, type: 3}
@@ -268,7 +268,7 @@ MonoBehaviour:
   - 0.87
   - 0.93
   - 1
-  L3Radius: 1
+  L3Radius: 3
 --- !u!4 &99661007
 Transform:
   m_ObjectHideFlags: 0
@@ -551,9 +551,9 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   colorGradientTexture: {fileID: 0}
   shallowColor: {r: 0, g: 0.7725491, b: 0.62352943, a: 0.5019608}
-  deepColor: {r: 0, g: 0.2599656, b: 0.6509434, a: 1}
+  deepColor: {r: 0, g: 0.25996533, b: 0.6509434, a: 1}
   colorDepth: 1.39
-  horizonColor: {r: 0, g: 0.22733325, b: 0.8, a: 1}
+  horizonColor: {r: 0, g: 0.22733301, b: 0.8, a: 1}
   horizonDistance: 14.45
   shoreFade: 1
   shoreColor: {r: 1, g: 1, b: 1, a: 1}
@@ -561,7 +561,7 @@ MonoBehaviour:
   shoreBlend: 1
   shoreDepth: 0.72
   waveColor: {r: 0, g: 0, b: 0, a: 0}
-  underwaterColor: {r: 0.20380998, g: 0.30968615, b: 0.517647, a: 0.552}
+  underwaterColor: {r: 0.20380974, g: 0.3096859, b: 0.517647, a: 0.552}
   underwaterColorStrength: 0.552
   underwaterRefractionStrength: 0.099
   surfaceFoamTexture: {fileID: 2800000, guid: d3b0d77dfe711a04c8ff18ecc260aa66, type: 3}

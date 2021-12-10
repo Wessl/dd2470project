@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028334, g: 0.2257134, b: 0.30692226, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -161,6 +161,7 @@ MonoBehaviour:
   slopeMap: {fileID: 2800000, guid: 060c08725d7a18f4982d5110de28ec98, type: 3}
   waterMap: {fileID: 2800000, guid: 7004a26589f1c4444b9e177ea7d320b7, type: 3}
   waterSpreadMap: {fileID: 2800000, guid: a5a980abded25034284c5982df75a024, type: 3}
+  placeL1Plants: 0
   L1Plants:
   - {fileID: 8992950790262190596, guid: 2739ed93ed079624490826c0b727d922, type: 3}
   - {fileID: 3977693881597732924, guid: 797ea333d18f81947a89a81e625a10a7, type: 3}
@@ -169,13 +170,15 @@ MonoBehaviour:
   - 0.3
   - 0.7
   - 1
-  L1Radius: 4
+  L1Radius: 6
+  placeL2Plants: 1
   L2Plants: []
   L2CorrespondingPredominanceValue: []
-  L2Radius: 0
+  L2Radius: 4
+  placeL3Plants: 1
   L3Plants: []
   L3CorrespondingPredominanceValue: []
-  L3Radius: 0
+  L3Radius: 2
 --- !u!4 &8544456
 Transform:
   m_ObjectHideFlags: 0

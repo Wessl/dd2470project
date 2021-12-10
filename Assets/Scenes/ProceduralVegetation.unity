@@ -214,15 +214,13 @@ MonoBehaviour:
   - {fileID: 8992950790262190596, guid: 2739ed93ed079624490826c0b727d922, type: 3}
   - {fileID: 3977693881597732924, guid: 797ea333d18f81947a89a81e625a10a7, type: 3}
   - {fileID: 5696477920863641230, guid: a95f5f9cf2f18e04384ea5b99bbda9d6, type: 3}
-  - {fileID: 5696477920863641230, guid: a95f5f9cf2f18e04384ea5b99bbda9d6, type: 3}
   - {fileID: 8992950790262190596, guid: fb0f37bab81008d48bd1b6d4eda1cbff, type: 3}
   L1CorrespondingPredominanceValue:
-  - 0.2
-  - 0.4
-  - 0.6
-  - 0.8
+  - 0.25
+  - 0.5
+  - 0.75
   - 1
-  L1Radius: 4
+  L1Radius: 5
   placeL2Plants: 0
   L2Plants:
   - {fileID: 8992950790262190596, guid: 3247c002250a77849a07d64f2869b5d8, type: 3}
@@ -553,9 +551,9 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   colorGradientTexture: {fileID: 0}
   shallowColor: {r: 0, g: 0.7725491, b: 0.62352943, a: 0.5019608}
-  deepColor: {r: 0, g: 0.25996578, b: 0.6509434, a: 1}
+  deepColor: {r: 0, g: 0.2599656, b: 0.6509434, a: 1}
   colorDepth: 1.39
-  horizonColor: {r: 0, g: 0.22733346, b: 0.8, a: 1}
+  horizonColor: {r: 0, g: 0.22733325, b: 0.8, a: 1}
   horizonDistance: 14.45
   shoreFade: 1
   shoreColor: {r: 1, g: 1, b: 1, a: 1}
@@ -563,7 +561,7 @@ MonoBehaviour:
   shoreBlend: 1
   shoreDepth: 0.72
   waveColor: {r: 0, g: 0, b: 0, a: 0}
-  underwaterColor: {r: 0.20381016, g: 0.30968633, b: 0.517647, a: 0.552}
+  underwaterColor: {r: 0.20380998, g: 0.30968615, b: 0.517647, a: 0.552}
   underwaterColorStrength: 0.552
   underwaterRefractionStrength: 0.099
   surfaceFoamTexture: {fileID: 2800000, guid: d3b0d77dfe711a04c8ff18ecc260aa66, type: 3}
@@ -671,13 +669,13 @@ MonoBehaviour:
   waterMap: {fileID: 2800000, guid: 7004a26589f1c4444b9e177ea7d320b7, type: 3}
   waterSpreadMap: {fileID: 2800000, guid: a5a980abded25034284c5982df75a024, type: 3}
   saveMeanHeightMap: 0
-  saveRelativeHeightMap: 1
+  saveRelativeHeightMap: 0
   saveSlopeMap: 0
   saveMoistureMap: 1
   heightMapWeight: 0.4
-  slopeMapWeight: 0.3
-  relativeHeightMapWeight: 0.4
-  omega: 0.6
+  slopeMapWeight: 0.4
+  relativeHeightMapWeight: 0.3
+  omega: 1
   heightMapCurve:
     serializedVersion: 2
     m_Curve:
@@ -708,17 +706,17 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 1
-      inSlope: -2.2116175
-      outSlope: -2.2116175
+      inSlope: -0.94566256
+      outSlope: -0.94566256
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.35731176
-      value: 0.20976305
-      inSlope: -1.2690006
-      outSlope: -1.2690006
+      time: 0.61268103
+      value: 0.4206105
+      inSlope: -1.0158081
+      outSlope: -1.0158081
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
@@ -726,8 +724,8 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 1
       value: 0
-      inSlope: -0.3263838
-      outSlope: -0.3263838
+      inSlope: -1.0859537
+      outSlope: -1.0859537
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
@@ -765,17 +763,26 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 1
-      inSlope: -1
-      outSlope: -1
+      inSlope: -5.3045387
+      outSlope: -5.3045387
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0.33333334
     - serializedVersion: 3
+      time: 0.12881804
+      value: 0.31667972
+      inSlope: -0.9528365
+      outSlope: -0.9528365
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.1603245
+    - serializedVersion: 3
       time: 1
       value: 0
-      inSlope: -1
-      outSlope: -1
+      inSlope: -0.3635058
+      outSlope: -0.3635058
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
@@ -953,13 +960,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2009053117}
-  m_LocalRotation: {x: 0.09336456, y: 0.38448426, z: -0.039122272, w: 0.9175644}
-  m_LocalPosition: {x: 33.8, y: 133.9, z: 249.4}
+  m_LocalRotation: {x: -0.113997914, y: 0.38350603, z: 0.047768205, w: 0.9152299}
+  m_LocalPosition: {x: 132.36, y: 11.4, z: 391.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 11.62, y: 45.47, z: 0}
+  m_LocalEulerAnglesHint: {x: -14.2, y: 45.47, z: 0}
 --- !u!114 &2009053121
 MonoBehaviour:
   m_ObjectHideFlags: 0

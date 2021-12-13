@@ -680,7 +680,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mapCreator: {fileID: 1173882325}
-  pddSamples: 15
+  pddSamples: 25
   threshold: 0.7
   heightMap: {fileID: 2800000, guid: fee93fdb2b02bba41b95784ef0e8a27b, type: 3}
   moistureMap: {fileID: 2800000, guid: de82417520a34ec4ca8714edc5d1fdbd, type: 3}
@@ -848,9 +848,9 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   colorGradientTexture: {fileID: 2800000, guid: bd53632ef09e7bf42ae1993d05758aaa, type: 3}
   shallowColor: {r: 0, g: 0.7725491, b: 0.62352943, a: 0.5019608}
-  deepColor: {r: 0, g: 0.25987536, b: 0.6509434, a: 1}
+  deepColor: {r: 0, g: 0.25986707, b: 0.6509434, a: 1}
   colorDepth: 1.39
-  horizonColor: {r: 0, g: 0.22724304, b: 0.8, a: 1}
+  horizonColor: {r: 0, g: 0.22723475, b: 0.8, a: 1}
   horizonDistance: 3.39
   shoreFade: 1
   shoreColor: {r: 1, g: 1, b: 1, a: 0}
@@ -858,7 +858,7 @@ MonoBehaviour:
   shoreBlend: 1
   shoreDepth: 1.28
   waveColor: {r: 0, g: 0, b: 0, a: 0}
-  underwaterColor: {r: 0.20372444, g: 0.3095959, b: 0.517647, a: 0}
+  underwaterColor: {r: 0.2037166, g: 0.30958763, b: 0.517647, a: 0}
   underwaterColorStrength: 0
   underwaterRefractionStrength: 0.099
   surfaceFoamTexture: {fileID: 2800000, guid: d3b0d77dfe711a04c8ff18ecc260aa66, type: 3}
@@ -916,10 +916,10 @@ MonoBehaviour:
   normalsScale: 2
   normalsSpeed: 0.04
   refractionStrength: 0.022
-  waveVisuals: {x: 0.146, y: 7.9, z: 1.38}
-  waveSteepness: 0.146
-  waveLength: 7.9
-  waveSpeed: 1.38
+  waveVisuals: {x: 0.058, y: 8, z: 0.7}
+  waveSteepness: 0.058
+  waveLength: 8
+  waveSpeed: 0.7
   waveDirections: {x: 0, y: 0.64, z: 1, w: 0.33}
   waveDirection1: 0
   waveDirection2: 0.64
@@ -940,7 +940,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7848623094907994988}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 38.3, y: 1, z: 45.8}
+  m_LocalPosition: {x: 38.3, y: 0.6, z: 45.8}
   m_LocalScale: {x: 100, y: 1, z: 100}
   m_Children: []
   m_Father: {fileID: 1692180908}

@@ -47,7 +47,7 @@ public class PlantController : MonoBehaviour
     [Tooltip("The index of this should correspond to the plant in the same list. Should be increasing, where the difference between preceeding divided by 1 is the percent chance. Ex: 0.4, 0.75, 1")]
     [SerializeField] private float[] L3CorrespondingPredominanceValue;
     [SerializeField] private float L3Radius;
-    
+
     // some private global vars
     private Vector2 terrainSize;
     private List<Plant[]> layers;
@@ -147,6 +147,7 @@ public class PlantController : MonoBehaviour
         // randomly rotate around y axis so that not every tree has exact same rot
         Quaternion rot = Quaternion.Euler(0, Random.Range(0f, 360f), 0);
         var newPlant = Instantiate(plant.plantObjectWithMesh, new Vector3(newX,height, newY), rot);
+        newPlant.transform.localScale *= Random.Range(0.5f, 1f);
         newPlant.transform.parent = this.transform;
         newPlant.isStatic = true;
     }

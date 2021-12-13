@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 0.158
   m_CustomReflection: {fileID: 8900000, guid: 1331a26d2843a1148a23d5ddc81629dc, type: 3}
   m_Sun: {fileID: 1079076768}
-  m_IndirectSpecularColor: {r: 0.025126135, g: 0.0817843, b: 0.16420314, a: 0.158}
+  m_IndirectSpecularColor: {r: 0.025128396, g: 0.08178542, b: 0.16420747, a: 0.158}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -623,7 +623,7 @@ MonoBehaviour:
   m_RenderPostProcessing: 1
   m_Antialiasing: 2
   m_AntialiasingQuality: 2
-  m_StopNaN: 0
+  m_StopNaN: 1
   m_Dithering: 0
   m_ClearDepth: 1
   m_AllowXRRendering: 1
@@ -692,7 +692,7 @@ MonoBehaviour:
   L1Plants:
   - {fileID: 8992950790262190596, guid: 2739ed93ed079624490826c0b727d922, type: 3}
   - {fileID: 3977693881597732924, guid: 797ea333d18f81947a89a81e625a10a7, type: 3}
-  - {fileID: 5696477920863641230, guid: a95f5f9cf2f18e04384ea5b99bbda9d6, type: 3}
+  - {fileID: 8992950790262190596, guid: e902a67f0670a364c855ff70661a99c9, type: 3}
   - {fileID: 8992950790262190596, guid: fb0f37bab81008d48bd1b6d4eda1cbff, type: 3}
   L1CorrespondingPredominanceValue:
   - 0.25
@@ -848,9 +848,9 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   colorGradientTexture: {fileID: 2800000, guid: bd53632ef09e7bf42ae1993d05758aaa, type: 3}
   shallowColor: {r: 0, g: 0.7725491, b: 0.62352943, a: 0.5019608}
-  deepColor: {r: 0, g: 0.25987813, b: 0.6509434, a: 1}
+  deepColor: {r: 0, g: 0.25987536, b: 0.6509434, a: 1}
   colorDepth: 1.39
-  horizonColor: {r: 0, g: 0.22724578, b: 0.8, a: 1}
+  horizonColor: {r: 0, g: 0.22724304, b: 0.8, a: 1}
   horizonDistance: 3.39
   shoreFade: 1
   shoreColor: {r: 1, g: 1, b: 1, a: 0}
@@ -858,7 +858,7 @@ MonoBehaviour:
   shoreBlend: 1
   shoreDepth: 1.28
   waveColor: {r: 0, g: 0, b: 0, a: 0}
-  underwaterColor: {r: 0.20372707, g: 0.30959868, b: 0.517647, a: 0}
+  underwaterColor: {r: 0.20372444, g: 0.3095959, b: 0.517647, a: 0}
   underwaterColorStrength: 0
   underwaterRefractionStrength: 0.099
   surfaceFoamTexture: {fileID: 2800000, guid: d3b0d77dfe711a04c8ff18ecc260aa66, type: 3}

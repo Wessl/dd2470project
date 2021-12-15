@@ -74,3 +74,6 @@ Other things I use:
 <p align="left">
   <img src="/Assets/MiscImages/right1.png" width="512" /> 
 </p>
+<p align="left">
+  <img src="/Assets/MiscImages/final_pic_1.png" width="512" /> 
+</p>

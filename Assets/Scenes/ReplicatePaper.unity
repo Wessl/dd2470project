@@ -545,27 +545,35 @@ MonoBehaviour:
   m_Waypoints:
   - position: {x: 32.19135, y: 25.778545, z: 180}
     roll: 0
-  - position: {x: 33.576054, y: 0, z: 29.34056}
+  - position: {x: -0.7690468, y: 1, z: 47.371544}
+    roll: 0
+  - position: {x: 28.46722, y: -9.36808, z: 46.233963}
+    roll: 0
+  - position: {x: 41.266663, y: -9.815828, z: 72.95066}
+    roll: 0
+  - position: {x: 42.355175, y: -11.738862, z: 88.94241}
+    roll: 0
+  - position: {x: 45.37805, y: -6.927232, z: 113.87132}
+    roll: 0
+  - position: {x: 71.15704, y: -7.501141, z: 118.388824}
     roll: 0
   - position: {x: 100.31851, y: 1, z: 116.93034}
     roll: 0
-  - position: {x: 115.06282, y: 5, z: 9.255081}
+  - position: {x: 115.06282, y: 18.396368, z: 9.255081}
     roll: 0
-  - position: {x: 172.70026, y: 15, z: 79.94826}
+  - position: {x: 172.70026, y: 18, z: 79.94826}
     roll: 0
-  - position: {x: 123.29979, y: 15, z: 70}
+  - position: {x: 123.29979, y: 25, z: 70}
     roll: 0
-  - position: {x: 138.26138, y: 10, z: 212.0501}
+  - position: {x: 127.13461, y: 19.238861, z: 108.53726}
     roll: 0
-  - position: {x: 125.73706, y: 2, z: 454.96747}
+  - position: {x: 144.70235, y: 13.617435, z: 270.41016}
     roll: 0
-  - position: {x: 211.37833, y: 46.824184, z: 319.5877}
+  - position: {x: 148.82375, y: 2, z: 454.96747}
     roll: 0
-  - position: {x: 327.58563, y: 138.86232, z: 334.56055}
+  - position: {x: 311.04666, y: 139.59247, z: 385.4222}
     roll: 0
-  - position: {x: 371.74915, y: 56.815304, z: 128.79845}
-    roll: 0
-  - position: {x: 205.46829, y: 33.50342, z: 149.92339}
+  - position: {x: 299.52502, y: 43.465504, z: 185.90836}
     roll: 0
 --- !u!4 &1457024665
 Transform:
@@ -737,7 +745,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2100695568}
-  m_LocalRotation: {x: -0.025734674, y: 0.93789876, z: -0.071298756, w: -0.33852655}
+  m_LocalRotation: {x: 0.003950663, y: -0.8048523, z: 0.0053581013, w: 0.59343785}
   m_LocalPosition: {x: 48.39135, y: 38.927994, z: 199.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -1116,9 +1124,9 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   colorGradientTexture: {fileID: 2800000, guid: bd53632ef09e7bf42ae1993d05758aaa, type: 3}
   shallowColor: {r: 0, g: 0.7725491, b: 0.62352943, a: 0.5019608}
-  deepColor: {r: 0, g: 0.25986478, b: 0.6509434, a: 1}
+  deepColor: {r: 0, g: 0.259862, b: 0.6509434, a: 1}
   colorDepth: 0
-  horizonColor: {r: 0, g: 0.22723246, b: 0.8, a: 1}
+  horizonColor: {r: 0, g: 0.22722968, b: 0.8, a: 1}
   horizonDistance: 3.39
   shoreFade: 1
   shoreColor: {r: 1, g: 1, b: 1, a: 0}
@@ -1126,7 +1134,7 @@ MonoBehaviour:
   shoreBlend: 1
   shoreDepth: 1.28
   waveColor: {r: 0, g: 0, b: 0, a: 0}
-  underwaterColor: {r: 0.20371443, g: 0.30958533, b: 0.517647, a: 0}
+  underwaterColor: {r: 0.20371181, g: 0.3095826, b: 0.517647, a: 0}
   underwaterColorStrength: 0
   underwaterRefractionStrength: 0.099
   surfaceFoamTexture: {fileID: 2800000, guid: d3b0d77dfe711a04c8ff18ecc260aa66, type: 3}

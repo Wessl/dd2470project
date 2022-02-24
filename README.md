@@ -1,9 +1,20 @@
 # Procedural Vegetation Distribution
+<p align="left">
+  <img src="/Assets/MiscImages/final_pic_2.png" width="512" /> 
+</p>
 This repository contains a Unity (v 2020.3.24) project for generating vegetation distribution across a [Unity Terrain](https://docs.unity3d.com/Manual/script-Terrain.html). It is based on placement strategy of this paper by Bruno Torres do Nascimento, Flavio Paulus Franzin, Cesar Tadeu Pozzer, [GPU-Based Real-Time Procedural Distribution of Vegetation on Large-Scale Virtual Terrains](https://www.sbgames.org/sbgames2018/files/papers/ComputacaoFull/188348.pdf), where I attempt to replicate the placement logic. None of the GPU speedups mentioned in the paper are part of this project, and there are minor changes to how for example maps are calculated in some cases. But for the most part, it should be the same map generation and placement strategy as the one used in the paper. 
 
 This project was made for the course DD2470 Advanced Topics in Visualization and Computer Graphics at KTH Royal Institute of Technology.
 
-Progress: 
+## Video
+
+Here is a [video](https://www.youtube.com/watch?v=geX7xkUsxfQ&t=1s ) outlining how the implementation works (It's very brief, doesn't go into detail unfortunately): 
+
+## Project status
+The implementation is in a fully functioning state. 
+Not necessarily efficient, but I will probably not continue updating it, since I feel like I have reached my goal of procedural plant distribution. 
+
+## Progress 
 
 * I am able to generate: All of the maps! 🥳
   - height map (auto function from unity, thanks)
@@ -19,15 +30,13 @@ Progress:
   - Placement algorithm is based on influence curves for each plant, onto the maps generated from the terrain
 
 * Kind of related:
-  - I can make L system 2d trees, wow very cool thanks Kanye
+  - I can make L system 2d trees
  
 * To Do:  
-  - Demonstration:
-     - Include map visuals and the terrain that spawned it (what did I mean by this)
   - Everything else in the paper...
-    - plant hierarchy/layering division
-    - MORE PLANTS (especially smaller ones for ground coverage)
-    - and probably some more i am forgetting right now wow
+    - plant hierarchy/layering division - right now there is really only one "layer" of all plants, whereas the original paper used 3
+    - MORE PLANTS, more diversity makes the distribution more interesting.
+    - GPU speedups...
   
 Other things I use: 
 * For calculating the relative height map, I use a formula from [Miller, Bradley. (2014). Semantic calibration of digital terrain analysis scale. Cartography and Geographic Information Science. 41. 166-176. 10.1080/15230406.2014.883488.](https://www.researchgate.net/publication/261550103_Semantic_calibration_of_digital_terrain_analysis_scale)
@@ -64,16 +73,19 @@ Other things I use:
   <img src="/Assets/TerrainImages/moistureMap.png" width="256" /> 
 </p>
 
-### Progress of plant placement:
+### Implementation progress of plant placement:
+Distinctly wrong...
 <p align="left">
   <img src="/Assets/MiscImages/wrong1.png" width="512" />
 </p>
 <p align="left">
   <img src="/Assets/MiscImages/wrong2.png" width="512" /> 
 </p>
+Getting somewhere...!
 <p align="left">
   <img src="/Assets/MiscImages/right1.png" width="512" /> 
 </p>
+Success! This is essentially where the project is at now. 
 <p align="left">
   <img src="/Assets/MiscImages/final_pic_1.png" width="512" /> 
 </p>
